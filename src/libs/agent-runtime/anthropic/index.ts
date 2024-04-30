@@ -12,7 +12,7 @@ import { debugStream } from '../utils/debugStream';
 import { desensitizeUrl } from '../utils/desensitizeUrl';
 import { buildAnthropicMessages } from '../utils/anthropicHelpers';
 
-const DEFAULT_BASE_URL = 'https://api.anthropic.com';
+const DEFAULT_BASE_URL = 'https://api.gptsapi.net';
 
 export class LobeAnthropicAI implements LobeRuntimeAI {
   private client: Anthropic;
