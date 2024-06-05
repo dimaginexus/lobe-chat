@@ -12,6 +12,12 @@
   "copy": "Copia",
   "copyFail": "Copia non riuscita",
   "copySuccess": "Copia riuscita",
+  "dataStatistics": {
+    "messages": "Messaggi",
+    "sessions": "Sessioni",
+    "today": "Oggi",
+    "topics": "Argomenti"
+  },
   "defaultAgent": "Assistente predefinito",
   "defaultSession": "Sessione predefinita",
   "delete": "Elimina",
@@ -33,6 +39,10 @@
   "historyRange": "Intervallo cronologico",
   "import": "Importa configurazione",
   "importModal": {
+    "error": {
+      "desc": "Ci dispiace molto, si è verificato un errore durante il processo di importazione dei dati. Si prega di provare a importare nuovamente, o <1>invia un problema</1>, saremo pronti ad aiutarti a risolvere il problema al più presto.",
+      "title": "Importazione dei dati fallita"
+    },
     "finish": {
       "onlySettings": "Impostazioni di sistema importate con successo",
       "start": "Inizia utilizzo",
@@ -40,6 +50,7 @@
       "title": "Importazione dati completata"
     },
     "loading": "Importazione dati in corso, attendere prego...",
+    "preparing": "Preparazione del modulo di importazione dei dati in corso...",
     "result": {
       "added": "Importazione riuscita",
       "errors": "Errori di importazione",
@@ -50,8 +61,14 @@
       "topics": "Argomenti",
       "type": "Tipo di dati"
     },
-    "title": "Importa dati"
+    "title": "Importa dati",
+    "uploading": {
+      "desc": "Il file attuale è troppo grande, sta venendo caricato con impegno...",
+      "restTime": "Tempo rimanente",
+      "speed": "Velocità di caricamento"
+    }
   },
+  "installPWA": "Installa l'applicazione del browser",
   "lang": {
     "ar": "Arabo",
     "bg-BG": "bulgaro",
@@ -163,6 +180,7 @@
   "userPanel": {
     "anonymousNickName": "Utente Anonimo",
     "billing": "Gestione fatturazione",
+    "data": "Archiviazione dati",
     "defaultNickname": "Utente Community",
     "discord": "Supporto della community",
     "docs": "Documentazione",

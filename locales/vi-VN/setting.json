@@ -2,6 +2,14 @@
   "about": {
     "title": "Về chúng tôi"
   },
+  "agentTab": {
+    "chat": "Tùy chọn Trò chuyện",
+    "meta": "Thông tin Trợ lý",
+    "modal": "Cài đặt Mô hình",
+    "plugin": "Cài đặt Plugin",
+    "prompt": "Thiết lập Nhân vật",
+    "tts": "Dịch vụ Giọng nói"
+  },
   "analytics": {
     "telemetry": {
       "desc": "Bằng cách chọn gửi dữ liệu telemetri, bạn có thể giúp chúng tôi cải thiện trải nghiệm người dùng toàn diện của LobeChat",
@@ -38,7 +46,6 @@
     "checker": {
       "button": "Kiểm tra",
       "desc": "Kiểm tra xem Api Key và địa chỉ proxy đã được điền đúng chưa",
-      "ollamaDesc": "Kiểm tra xem địa chỉ proxy đã được điền đúng chưa",
       "pass": "Kiểm tra thành công",
       "title": "Kiểm tra kết nối"
     },
@@ -71,7 +78,8 @@
         },
         "modalTitle": "Cấu hình mô hình tùy chỉnh",
         "tokens": {
-          "title": "Số lượng token tối đa"
+          "title": "Số lượng token tối đa",
+          "unlimited": "vô hạn"
         },
         "vision": {
           "extra": "Cấu hình này chỉ mở khả năng tải lên hình ảnh trong LobeChat, việc hỗ trợ nhận diện hoàn toàn phụ thuộc vào mô hình chính mình, hãy tự kiểm tra tính khả dụng của khả năng nhận diện hình ảnh của mô hình",
@@ -94,6 +102,10 @@
       "placeholder": "Vui lòng chọn mô hình từ danh sách",
       "title": "Danh sách mô hình",
       "total": "Tổng cộng có {{count}} mô hình có sẵn"
+    },
+    "proxyUrl": {
+      "desc": "Ngoài địa chỉ mặc định, phải bao gồm http(s)://",
+      "title": "Địa chỉ Proxy API"
     },
     "waitingForMore": "Có thêm mô hình đang <1>được lên kế hoạch tích hợp</1>, hãy chờ đợi ✨"
   },
@@ -170,6 +182,7 @@
     "enableHistoryCount": {
       "alias": "Không giới hạn",
       "limited": "Chỉ chứa {{number}} tin nhắn trò chuyện",
+      "setlimited": "Thiết lập số lượng tin nhắn lịch sử",
       "title": "Giới hạn số lượng tin nhắn lịch sử",
       "unlimited": "Không giới hạn số lượng tin nhắn lịch sử"
     },
@@ -355,6 +368,19 @@
       "title": "WebRTC Đồng bộ"
     }
   },
+  "systemAgent": {
+    "title": "Trợ lý hệ thống",
+    "topic": {
+      "label": "Mô hình đặt tên chủ đề",
+      "modelDesc": "Mô hình được chỉ định để tự động đặt tên chủ đề",
+      "title": "Tự động đặt tên chủ đề"
+    },
+    "translation": {
+      "label": "Mô hình dịch",
+      "modelDesc": "Chọn mô hình để dịch",
+      "title": "Cài đặt trợ lý dịch"
+    }
+  },
   "tab": {
     "about": "Về chúng tôi",
     "agent": "Trợ lý mặc định",
@@ -362,6 +388,7 @@
     "experiment": "Thử nghiệm",
     "llm": "Mô hình ngôn ngữ",
     "sync": "Đồng bộ trên đám mây",
+    "system-agent": "Trợ lý hệ thống",
     "tts": "Dịch vụ giọng nói"
   },
   "tools": {

@@ -2,6 +2,14 @@
   "about": {
     "title": "Sobre"
   },
+  "agentTab": {
+    "chat": "Preferências de bate-papo",
+    "meta": "Informações do assistente",
+    "modal": "Configurações do modelo",
+    "plugin": "Configurações do plug-in",
+    "prompt": "Configuração de personagem",
+    "tts": "Serviço de voz"
+  },
   "analytics": {
     "telemetry": {
       "desc": "Ao optar por enviar dados de telemetria, você pode nos ajudar a melhorar a experiência do usuário do LobeChat como um todo",
@@ -38,7 +46,6 @@
     "checker": {
       "button": "Verificar",
       "desc": "Verifica se a Api Key e o endereço do proxy estão preenchidos corretamente",
-      "ollamaDesc": "Verifique se o endereço do proxy está preenchido corretamente",
       "pass": "Verificação aprovada",
       "title": "Verificação de Conectividade"
     },
@@ -71,7 +78,8 @@
         },
         "modalTitle": "Configuração de Modelo Personalizado",
         "tokens": {
-          "title": "Número Máximo de Tokens"
+          "title": "Número Máximo de Tokens",
+          "unlimited": "ilimitado"
         },
         "vision": {
           "extra": "Esta configuração ativará apenas a configuração de upload de imagens no LobeChat. A capacidade de reconhecimento depende inteiramente do modelo em si. Por favor, teste a disponibilidade da capacidade de reconhecimento visual deste modelo.",
@@ -94,6 +102,10 @@
       "placeholder": "Selecione um modelo da lista",
       "title": "Lista de Modelos",
       "total": "Total de {{count}} modelos disponíveis"
+    },
+    "proxyUrl": {
+      "desc": "Além do endereço padrão, deve incluir http(s)://",
+      "title": "Endereço do Proxy da API"
     },
     "waitingForMore": "Mais modelos estão sendo <1>planejados para serem adicionados</1>, aguarde ansiosamente ✨"
   },
@@ -170,6 +182,7 @@
     "enableHistoryCount": {
       "alias": "Sem limite",
       "limited": "Incluir apenas {{number}} mensagens de conversa",
+      "setlimited": "Definir número de mensagens de histórico",
       "title": "Limitar número de mensagens de histórico",
       "unlimited": "Sem limite de mensagens de histórico"
     },
@@ -355,6 +368,19 @@
       "title": "Sincronização WebRTC"
     }
   },
+  "systemAgent": {
+    "title": "Assistente do Sistema",
+    "topic": {
+      "label": "Modelo de Nomeação de Tópicos",
+      "modelDesc": "Especifica o modelo usado para renomeação automática de tópicos",
+      "title": "Renomeação Automática de Tópicos"
+    },
+    "translation": {
+      "label": "Modelo de Tradução",
+      "modelDesc": "Especifica o modelo usado para tradução",
+      "title": "Configurações do Assistente de Tradução"
+    }
+  },
   "tab": {
     "about": "Sobre",
     "agent": "Assistente Padrão",
@@ -362,6 +388,7 @@
     "experiment": "Experimento",
     "llm": "Modelo de Linguagem",
     "sync": "Sincronização na nuvem",
+    "system-agent": "Assistente do Sistema",
     "tts": "Serviço de Voz"
   },
   "tools": {

@@ -130,6 +130,8 @@ We have implemented support for the following model service providers:
 - **ChatGLM**: Added the **ChatGLM** series models from Zhipuai (GLM-4/GLM-4-vision/GLM-3-turbo), providing users with another efficient conversation model choice. [Learn more](https://www.zhipuai.cn/)
 - **Moonshot AI (Dark Side of the Moon)**: Integrated with the Moonshot series models, an innovative AI startup from China, aiming to provide deeper conversation understanding. [Learn more](https://www.moonshot.cn/)
 - **Minimax**: Integrated the Minimax models, including the MoE model **abab6**, offers a broader range of choices. [Learn more](https://www.minimaxi.com/)
+- **DeepSeek**: Integrated with the DeepSeek series models, an innovative AI startup from China, The product has been designed to provide a model that balances performance with price. [Learn more](https://www.deepseek.com/)
+- **Qwen**: Integrated the Qwen series models, including the latest **qwen-turbo**, **qwen-plus** and **qwen-max**. [Lean more](https://help.aliyun.com/zh/dashscope/developer-reference/model-introduction)
 
 At the same time, we are also planning to support more model service providers, such as Replicate and Perplexity, to further enrich our service provider library. If you would like LobeChat to support your favorite service provider, feel free to join our [community discussion](https://github.com/lobehub/lobe-chat/discussions/1284).
 
@@ -222,14 +224,14 @@ In addition, these plugins are not limited to news aggregation, but can also ext
 
 <!-- PLUGIN LIST -->
 
-| Recent Submits                                                                                                            | Description                                                                                                                                 |
-| ------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------- |
-| [Search1API](https://chat-preview.lobehub.com/settings/agent)<br/><sup>By **fatwang2** on **2024-05-06**</sup>            | Search aggregation service, specifically designed for LLMs<br/>`web` `search`                                                               |
-| [Social Search](https://chat-preview.lobehub.com/settings/agent)<br/><sup>By **say-apps** on **2024-05-02**</sup>         | The Social Search provides access to tweets, users, followers, images, media and more.<br/>`social` `twitter` `x` `search`                  |
-| [Search Google via Serper](https://chat-preview.lobehub.com/settings/agent)<br/><sup>By **Barry** on **2024-04-30**</sup> | Google search engine via Serper.dev free API (2500x🆓/month)<br/>`web` `search`                                                             |
-| [NFT Guru](https://chat-preview.lobehub.com/settings/agent)<br/><sup>By **swap** on **2024-04-03**</sup>                  | Discover current prices of NFTs across major platforms and keep track of the rapidly changing marketplace with real-time<br/>`crypto` `nft` |
+| Recent Submits                                                                                                            | Description                                                                                                                |
+| ------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------- |
+| [Social Search](https://chat-preview.lobehub.com/settings/agent)<br/><sup>By **say-apps** on **2024-06-02**</sup>         | The Social Search provides access to tweets, users, followers, images, media and more.<br/>`social` `twitter` `x` `search` |
+| [Space](https://chat-preview.lobehub.com/settings/agent)<br/><sup>By **automateyournetwork** on **2024-05-12**</sup>      | Space data including NASA.<br/>`space` `nasa`                                                                              |
+| [Search1API](https://chat-preview.lobehub.com/settings/agent)<br/><sup>By **fatwang2** on **2024-05-06**</sup>            | Search aggregation service, specifically designed for LLMs<br/>`web` `search`                                              |
+| [Search Google via Serper](https://chat-preview.lobehub.com/settings/agent)<br/><sup>By **Barry** on **2024-04-30**</sup> | Google search engine via Serper.dev free API (2500x🆓/month)<br/>`web` `search`                                            |
 
-> 📊 Total plugins: [<kbd>**57**</kbd>](https://github.com/lobehub/lobe-chat-plugins)
+> 📊 Total plugins: [<kbd>**55**</kbd>](https://github.com/lobehub/lobe-chat-plugins)
 
  <!-- PLUGIN LIST -->
 
@@ -261,14 +263,14 @@ Our marketplace is not just a showcase platform but also a collaborative space. 
 
 <!-- AGENT LIST -->
 
-| Recent Submits                                                                                                                                                                             | Description                                                                                                                                                                                                                                                    |
-| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| [Video to Blog Post Assistant](https://chat-preview.lobehub.com/market?agent=video-2-blog-assistant)<br/><sup>By **[yayoinoyume](https://github.com/yayoinoyume)** on **2024-05-06**</sup> | Helps you quickly organize messy subtitles into beautiful blog posts<br/>`subtitle-organization` `blog-post-formatting` `video-to-blog`                                                                                                                        |
-| [Art Evaluation Tutor](https://chat-preview.lobehub.com/market?agent=wanwusheng-art)<br/><sup>By **[dingyufei615](https://github.com/dingyufei615)** on **2024-05-06**</sup>               | Specializes in teaching children's art, meticulously evaluates works, pays attention to details, and adapts to students of different age groups.<br/>`art-education` `evaluation` `creativity` `teaching` `painting`                                           |
-| [iOS Code Artist](https://chat-preview.lobehub.com/market?agent=ios-develop)<br/><sup>By **[Alcu1n](https://github.com/Alcu1n)** on **2024-05-03**</sup>                                   | iOS development expert with 15 years of experience, proficient in Swift, SwiftUI, Flutter. Clear logic in code, precise debugging, providing project frameworks from 0 to 1.<br/>`i-os-development` `coding` `debugging` `project-planning` `logical-thinking` |
-| [Sales Description Specialist](https://chat-preview.lobehub.com/market?agent=verkauf-kleinanzeigen)<br/><sup>By **[highseen](https://github.com/highseen)** on **2024-04-30**</sup>        | Assists in the sale of used items through research, pricing, description, and title creation.<br/>`product-sales` `research` `description`                                                                                                                     |
+| Recent Submits                                                                                                                                                                                 | Description                                                                                                                                                                                                                       |
+| ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| [Expert Response to Reviewer](https://chat-preview.lobehub.com/market?agent=academic-editor-en)<br/><sup>By **[Starlitnightly](https://github.com/Starlitnightly)** on **2024-06-03**</sup>    | Specializing in natural academic editing, assisting authors in responding to reviewer comments in a scientific, courteous, and point-by-point manner.<br/>`academic-editing` `response-to-reviewer-comments` `scientific-writing` |
+| [Translation of Novels: English to Chinese](https://chat-preview.lobehub.com/market?agent=noveltranslation)<br/><sup>By **[xbtachlb](https://github.com/xbtachlb)** on **2024-06-03**</sup>    | Secondary translation of novels<br/>`translation`                                                                                                                                                                                 |
+| [Convert Docker to Docker Compose](https://chat-preview.lobehub.com/market?agent=onekr-docker-2-compose)<br/><sup>By **[onekr-billy](https://github.com/onekr-billy)** on **2024-05-31**</sup> | Specialized in converting Docker run commands to Docker Compose configurations<br/>`docker` `docker-compose` `system-administration` `configuration-file` `conversion`                                                            |
+| [Java Class to MySQL](https://chat-preview.lobehub.com/market?agent=onekr-java-2-sql)<br/><sup>By **[onekr-billy](https://github.com/onekr-billy)** on **2024-05-31**</sup>                    | Specialized in generating SQL scripts that comply with MySQL specifications based on Java class files.<br/>`java-class-to-my-sql` `backend-development` `sql-scripts` `data-conversion` `databases`                               |
 
-> 📊 Total agents: [<kbd>**247**</kbd> ](https://github.com/lobehub/lobe-chat-agents)
+> 📊 Total agents: [<kbd>**285**</kbd> ](https://github.com/lobehub/lobe-chat-agents)
 
  <!-- AGENT LIST -->
 
@@ -713,7 +715,7 @@ This project is [MIT](./LICENSE) licensed.
 [image-feat-theme]: https://gw.alipayobjects.com/zos/kitchen/pvus1lo%26Z7/darkmode.webp
 [image-feat-tts]: https://github-production-user-asset-6210df.s3.amazonaws.com/17870709/284072124-c9853d8d-f1b5-44a8-a305-45ebc0f6d19a.png
 [image-feat-vision]: https://github-production-user-asset-6210df.s3.amazonaws.com/17870709/284072129-382bdf30-e3d6-4411-b5a0-249710b8ba08.png
-[image-overview]: https://github.com/lobehub/lobe-chat/assets/28616219/8b04c3c9-3d71-4fb4-bd9b-a4f415c5876d
+[image-overview]: https://github.com/lobehub/lobe-chat/assets/17870709/56b95d48-f573-41cd-8b38-387bf88bc4bf
 [image-star]: https://github.com/lobehub/lobe-chat/assets/17870709/cb06b748-513f-47c2-8740-d876858d7855
 [issues-link]: https://img.shields.io/github/issues/lobehub/lobe-chat.svg?style=flat
 [lobe-chat-plugins]: https://github.com/lobehub/lobe-chat-plugins

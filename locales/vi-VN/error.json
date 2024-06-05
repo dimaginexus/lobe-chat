@@ -12,6 +12,8 @@
     "retry": "Thử lại",
     "title": "Trang gặp một chút vấn đề.."
   },
+  "fetchError": "Yêu cầu thất bại",
+  "fetchErrorDetail": "Chi tiết lỗi",
   "notFound": {
     "backHome": "Quay về Trang chủ",
     "desc": "Chúng tôi không thể tìm thấy trang bạn đang tìm, vui lòng kiểm tra xem liên kết có đúng không",
@@ -55,6 +57,7 @@
     "AnthropicBizError": "Yêu cầu dịch vụ AI Anthropic gặp lỗi, vui lòng kiểm tra thông tin dưới đây hoặc thử lại",
     "AzureBizError": "Yêu cầu dịch vụ Azure AI gặp lỗi, vui lòng kiểm tra và thử lại dựa trên thông tin dưới đây",
     "BedrockBizError": "Yêu cầu dịch vụ Bedrock gặp lỗi, vui lòng kiểm tra và thử lại dựa trên thông tin dưới đây",
+    "DeepSeekBizError": "Yêu cầu dịch vụ DeepSeek gặp lỗi, vui lòng kiểm tra thông tin dưới đây hoặc thử lại",
     "GoogleBizError": "Yêu cầu dịch vụ Google gặp lỗi, vui lòng kiểm tra và thử lại dựa trên thông tin dưới đây",
     "GroqBizError": "Yêu cầu dịch vụ Groq gặp sự cố, vui lòng kiểm tra thông tin bên dưới hoặc thử lại",
     "InvalidAccessCode": "Mật khẩu truy cập không hợp lệ hoặc trống, vui lòng nhập mật khẩu truy cập đúng hoặc thêm Khóa API tùy chỉnh",
@@ -62,6 +65,7 @@
     "InvalidAzureAPIKey": "Khóa API Azure không chính xác hoặc trống, vui lòng kiểm tra lại Khóa API Azure và thử lại",
     "InvalidBedrockCredentials": "Xác thực Bedrock không thành công, vui lòng kiểm tra AccessKeyId/SecretAccessKey và thử lại",
     "InvalidClerkUser": "Xin lỗi, bạn chưa đăng nhập. Vui lòng đăng nhập hoặc đăng ký tài khoản trước khi tiếp tục.",
+    "InvalidDeepSeekAPIKey": "Khóa API DeepSeek không hợp lệ hoặc trống, vui lòng kiểm tra lại và thử lại",
     "InvalidGoogleAPIKey": "Khóa API Google không chính xác hoặc trống, vui lòng kiểm tra lại Khóa API Google và thử lại",
     "InvalidGroqAPIKey": "Khóa API Groq không hợp lệ hoặc trống, vui lòng kiểm tra lại Khóa API Groq và thử lại",
     "InvalidMinimaxAPIKey": "Khóa API Minimax không hợp lệ hoặc trống, vui lòng kiểm tra lại Khóa API Minimax và thử lại",
@@ -70,6 +74,7 @@
     "InvalidOllamaArgs": "Cấu hình Ollama không hợp lệ, vui lòng kiểm tra lại cấu hình Ollama và thử lại",
     "InvalidOpenRouterAPIKey": "OpenRouter API Key không hợp lệ hoặc trống, vui lòng kiểm tra lại và thử lại",
     "InvalidPerplexityAPIKey": "Khóa API Perplexity không hợp lệ hoặc trống, vui lòng kiểm tra lại và thử lại sau",
+    "InvalidQwenAPIKey": "Khóa API Qwen không chính xác hoặc trống, vui lòng kiểm tra lại Khóa API Qwen và thử lại",
     "InvalidTogetherAIAPIKey": "TogetherAI API Key không hợp lệ hoặc trống, vui lòng kiểm tra lại và thử lại",
     "InvalidZeroOneAPIKey": "Khóa API ZeroOne không hợp lệ hoặc trống, vui lòng kiểm tra lại khóa API ZeroOne và thử lại",
     "InvalidZhipuAPIKey": "Khóa API Zhipu không chính xác hoặc trống, vui lòng kiểm tra lại Khóa API Zhipu và thử lại",
@@ -84,6 +89,7 @@
     "OpenRouterBizError": "Yêu cầu dịch vụ OpenRouter AI gặp lỗi, vui lòng kiểm tra thông tin dưới đây hoặc thử lại",
     "PerplexityBizError": "Yêu cầu dịch vụ AI Perplexity gặp lỗi, vui lòng kiểm tra thông tin dưới đây hoặc thử lại sau",
     "PluginApiNotFound": "Xin lỗi, không có API nào trong tệp mô tả plugin, vui lòng kiểm tra phương thức yêu cầu của bạn có khớp với API mô tả plugin không",
+    "QwenBizError": "Yêu cầu dịch vụ Qwen gặp lỗi, vui lòng kiểm tra thông tin dưới đây hoặc thử lại sau",
     "PluginApiParamsError": "Xin lỗi, kiểm tra tham số đầu vào yêu cầu của plugin không thông qua, vui lòng kiểm tra tham số đầu vào có khớp với thông tin mô tả API không",
     "PluginGatewayError": "Xin lỗi, cổng plugin gặp lỗi, vui lòng kiểm tra cấu hình cổng plugin có đúng không",
     "PluginManifestInvalid": "Xin lỗi, kiểm tra mô tả plugin không thông qua, vui lòng kiểm tra định dạng mô tả có đúng không",
@@ -132,5 +138,9 @@
       "apiKey": "Khóa API tùy chỉnh",
       "password": "Mật khẩu"
     }
+  },
+  "upload": {
+    "desc": "Chi tiết: {{detail}}",
+    "title": "Tải lên tệp thất bại, vui lòng kiểm tra kết nối mạng hoặc thử lại sau"
   }
 }

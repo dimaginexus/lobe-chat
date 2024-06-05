@@ -65,6 +65,12 @@ const getStatus = (errorType: ILobeAgentRuntimeErrorType | ErrorType) => {
     case AgentRuntimeErrorType.MinimaxBizError: {
       return 485;
     }
+    case AgentRuntimeErrorType.DeepSeekBizError: {
+      return 486;
+    }
+    case AgentRuntimeErrorType.QwenBizError: {
+      return 487;
+    }
   }
   return errorType as number;
 };

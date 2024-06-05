@@ -25,7 +25,7 @@ export enum ModelProvider {
   Anthropic = 'anthropic',
   Azure = 'azure',
   Bedrock = 'bedrock',
-  ChatGLM = 'chatglm',
+  DeepSeek = 'deepseek',
   Google = 'google',
   Groq = 'groq',
   Minimax = 'minimax',
@@ -35,8 +35,10 @@ export enum ModelProvider {
   OpenAI = 'openai',
   OpenRouter = 'openrouter',
   Perplexity = 'perplexity',
+  Qwen = 'qwen',
   TogetherAI = 'togetherai',
-  Tongyi = 'tongyi',
   ZeroOne = 'zeroone',
   ZhiPu = 'zhipu',
 }
+
+export type ModelProviderKey = Lowercase<keyof typeof ModelProvider>;

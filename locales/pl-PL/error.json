@@ -1,9 +1,9 @@
 {
   "clerkAuth": {
     "loginSuccess": {
-      "action": "继续会话",
-      "desc": "{{greeting}}，很高兴能够继续为你服务。让我们接着刚刚的话题聊下去吧",
-      "title": "欢迎回来， {{nickName}}"
+      "action": "Continue session",
+      "desc": "{{greeting}}, it's great to continue serving you. Let's continue our previous conversation.",
+      "title": "Welcome back, {{nickName}}"
     }
   },
   "error": {
@@ -12,6 +12,8 @@
     "retry": "Ponów próbę",
     "title": "Napotkano problem na stronie.."
   },
+  "fetchError": "Błąd żądania",
+  "fetchErrorDetail": "Szczegóły błędu",
   "notFound": {
     "backHome": "Powrót do strony głównej",
     "desc": "Nie możemy odnaleźć strony, której szukasz. Sprawdź, czy link jest poprawny.",
@@ -55,6 +57,7 @@
     "AnthropicBizError": "Wystąpił błąd biznesowy podczas żądania usługi Anthropic AI. Sprawdź poniższe informacje i spróbuj ponownie.",
     "AzureBizError": "Wystąpił błąd żądania usługi Azure AI, prosimy o sprawdzenie poniższych informacji lub ponowne próbowanie.",
     "BedrockBizError": "Wystąpił błąd żądania usługi Bedrock, prosimy o sprawdzenie poniższych informacji lub ponowne próbowanie.",
+    "DeepSeekBizError": "Błąd biznesowy podczas żądania usługi DeepSeek. Sprawdź poniższe informacje lub spróbuj ponownie.",
     "GoogleBizError": "Wystąpił błąd żądania usługi Google, prosimy o sprawdzenie poniższych informacji lub ponowne próbowanie.",
     "GroqBizError": "Wystąpił błąd usługi Groq. Sprawdź poniższe informacje lub spróbuj ponownie.",
     "InvalidAccessCode": "Nieprawidłowy kod dostępu: Hasło jest nieprawidłowe lub puste. Proszę wprowadzić poprawne hasło dostępu lub dodać niestandardowy klucz API.",
@@ -62,6 +65,7 @@
     "InvalidAzureAPIKey": "Nieprawidłowy lub pusty klucz API Azure, prosimy sprawdzić klucz API Azure i spróbować ponownie.",
     "InvalidBedrockCredentials": "Uwierzytelnienie Bedrock nie powiodło się, prosimy sprawdzić AccessKeyId/SecretAccessKey i spróbować ponownie.",
     "InvalidClerkUser": "Przepraszamy, nie jesteś obecnie zalogowany. Proszę najpierw zalogować się lub zarejestrować, aby kontynuować.",
+    "InvalidDeepSeekAPIKey": "Klucz API DeepSeek jest nieprawidłowy lub pusty. Sprawdź klucz API DeepSeek i spróbuj ponownie.",
     "InvalidGoogleAPIKey": "Nieprawidłowy lub pusty klucz API Google, prosimy sprawdzić klucz API Google i spróbować ponownie.",
     "InvalidGroqAPIKey": "Nieprawidłowy klucz API Groq, prosimy sprawdzić klucz API Groq i spróbować ponownie.",
     "InvalidMinimaxAPIKey": "Nieprawidłowy lub pusty klucz API Minimax, proszę sprawdzić klucz API Minimax i spróbować ponownie",
@@ -70,6 +74,7 @@
     "InvalidOllamaArgs": "Nieprawidłowa konfiguracja Ollama, sprawdź konfigurację Ollama i spróbuj ponownie",
     "InvalidOpenRouterAPIKey": "OpenRouter API Key jest nieprawidłowy lub pusty. Sprawdź klucz API OpenRouter i spróbuj ponownie.",
     "InvalidPerplexityAPIKey": "Klucz API Perplexity jest nieprawidłowy lub pusty. Sprawdź klucz API Perplexity i spróbuj ponownie.",
+    "InvalidQwenAPIKey": "Nieprawidłowy lub pusty klucz API Qwen, prosimy sprawdzić klucz API Qwen i spróbować ponownie.",
     "InvalidTogetherAIAPIKey": "TogetherAI API Key jest nieprawidłowy lub pusty. Sprawdź klucz API TogetherAI i spróbuj ponownie.",
     "InvalidZeroOneAPIKey": "Klucz API Zero One nieprawidłowy lub pusty, sprawdź poprawność klucza API Zero One i spróbuj ponownie",
     "InvalidZhipuAPIKey": "Nieprawidłowy lub pusty klucz API Zhipu, prosimy sprawdzić klucz API Zhipu i spróbować ponownie.",
@@ -95,6 +100,7 @@
     "PluginOpenApiInitError": "Przepraszamy, inicjalizacja klienta OpenAPI nie powiodła się. Proszę sprawdź, czy informacje konfiguracyjne OpenAPI są poprawne",
     "PluginServerError": "Błąd zwrócony przez serwer wtyczki. Proszę sprawdź plik opisowy wtyczki, konfigurację wtyczki lub implementację serwera zgodnie z poniższymi informacjami o błędzie",
     "PluginSettingsInvalid": "Ta wtyczka wymaga poprawnej konfiguracji przed użyciem. Proszę sprawdź, czy Twoja konfiguracja jest poprawna",
+    "QwenBizError": "Wystąpił błąd żądania usługi Qwen, prosimy o sprawdzenie poniższych informacji lub ponowne próbowanie.",
     "TogetherAIBizError": "Wystąpił błąd biznesowy podczas żądania usługi TogetherAI AI. Sprawdź poniższe informacje lub spróbuj ponownie.",
     "ZeroOneBizError": "请求零一万物服务出错，请根据以下信息排查或重试",
     "ZhipuBizError": "Wystąpił błąd żądania usługi Zhipu, prosimy o sprawdzenie poniższych informacji lub ponowne próbowanie."
@@ -132,5 +138,9 @@
       "apiKey": "Niestandardowy klucz API",
       "password": "Hasło"
     }
+  },
+  "upload": {
+    "desc": "Szczegóły: {{detail}}",
+    "title": "Nie udało się przesłać pliku. Sprawdź połączenie sieciowe lub spróbuj ponownie później"
   }
 }

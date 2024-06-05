@@ -6,7 +6,7 @@ import { createStyles } from 'antd-style';
 import isEqual from 'fast-deep-equal';
 import { RefreshCw } from 'lucide-react';
 import Link from 'next/link';
-import { memo, useMemo, useState } from 'react';
+import { memo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Flexbox } from 'react-layout-kit';
 
@@ -63,33 +63,13 @@ const AgentsSuggest = memo<{ mobile?: boolean }>(({ mobile }) => {
   const agentList = useMarketStore((s) => s.agentList, isEqual);
   const { styles } = useStyles();
 
-  const agentLength = mobile ? 3 : 4;
+  const agentLength = mobile ? 2 : 4;
 
   const loadingCards = Array.from({ length: agentLength }).map((_, index) => (
     <Flexbox className={styles.card} key={index}>
       <Skeleton active avatar paragraph={{ rows: 2 }} title={false} />
     </Flexbox>
   ));
-
-  const cards = useMemo(
-    () =>
-      agentList.slice(sliceStart, sliceStart + agentLength).map((agent) => (
-        <Link href={`/market?agent=${agent.identifier}`} key={agent.identifier}>
-          <Flexbox className={styles.card} gap={8} horizontal>
-            <Avatar avatar={agent.meta.avatar} style={{ flex: 'none' }} />
-            <Flexbox gap={mobile ? 2 : 8} style={{ overflow: 'hidden', width: '100%' }}>
-              <Paragraph className={styles.cardTitle} ellipsis={{ rows: 1 }}>
-                {agent.meta.title}
-              </Paragraph>
-              <Paragraph className={styles.cardDesc} ellipsis={{ rows: mobile ? 1 : 2 }}>
-                {agent.meta.description}
-              </Paragraph>
-            </Flexbox>
-          </Flexbox>
-        </Link>
-      )),
-    [agentList, sliceStart],
-  );
 
   const handleRefresh = () => {
     if (!agentList) return;
@@ -108,7 +88,23 @@ const AgentsSuggest = memo<{ mobile?: boolean }>(({ mobile }) => {
         />
       </Flexbox>
       <Grid gap={8} rows={2}>
-        {isLoading ? loadingCards : cards}
+        {isLoading
+          ? loadingCards
+          : agentList.slice(sliceStart, sliceStart + agentLength).map((agent) => (
+              <Link href={`/market?agent=${agent.identifier}`} key={agent.identifier}>
+                <Flexbox className={styles.card} gap={8} horizontal>
+                  <Avatar avatar={agent.meta.avatar} style={{ flex: 'none' }} />
+                  <Flexbox gap={mobile ? 2 : 8} style={{ overflow: 'hidden', width: '100%' }}>
+                    <Paragraph className={styles.cardTitle} ellipsis={{ rows: 1 }}>
+                      {agent.meta.title}
+                    </Paragraph>
+                    <Paragraph className={styles.cardDesc} ellipsis={{ rows: mobile ? 1 : 2 }}>
+                      {agent.meta.description}
+                    </Paragraph>
+                  </Flexbox>
+                </Flexbox>
+              </Link>
+            ))}
       </Grid>
     </Flexbox>
   );

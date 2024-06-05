@@ -9,6 +9,7 @@ import {
   Claude,
   Cohere,
   Dbrx,
+  DeepSeek,
   FishAudio,
   Gemini,
   Gemma,
@@ -27,7 +28,7 @@ import {
   Stability,
   Tongyi,
   Wenxin,
-  ZeroOne,
+  Yi,
 } from '@lobehub/icons';
 import { memo } from 'react';
 
@@ -43,6 +44,7 @@ const ModelIcon = memo<ModelIconProps>(({ model, size = 12 }) => {
   if (model.startsWith('gpt')) return <OpenAI size={size} />;
   if (model.startsWith('glm') || model.includes('chatglm')) return <ChatGLM size={size} />;
   if (model.includes('claude')) return <Claude size={size} />;
+  if (model.includes('deepseek')) return <DeepSeek size={size} />;
   if (model.includes('titan')) return <Aws size={size} />;
   if (model.includes('llama')) return <Meta size={size} />;
   if (model.includes('llava')) return <LLaVA size={size} />;
@@ -54,7 +56,7 @@ const ModelIcon = memo<ModelIconProps>(({ model, size = 12 }) => {
   if (model.includes('abab')) return <Minimax size={size} />;
   if (model.includes('mistral') || model.includes('mixtral')) return <Mistral size={size} />;
   if (model.includes('pplx') || model.includes('sonar')) return <Perplexity size={size} />;
-  if (model.includes('yi-')) return <ZeroOne size={size} />;
+  if (model.includes('yi-')) return <Yi size={size} />;
   if (model.startsWith('openrouter')) return <OpenRouter size={size} />; // only for Cinematika and Auto
   if (model.startsWith('openchat')) return <OpenChat size={size} />;
   if (model.includes('command')) return <Cohere size={size} />;

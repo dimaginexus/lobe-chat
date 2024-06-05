@@ -7,13 +7,14 @@ import { createStyles, useThemeMode } from 'antd-style';
 const prefixCls = 'cl';
 
 export const useStyles = createStyles(
-  ({ css, token }) =>
+  ({ css, token, isDarkMode }) =>
     ({
       avatarBox: css`
         width: 40px;
         height: 40px;
       `,
       cardBox: css`
+        background: ${token.colorBgContainer};
         border-radius: ${token.borderRadiusLG}px;
         box-shadow: 0 0 0 1px ${token.colorBorderSecondary};
       `,
@@ -42,7 +43,11 @@ export const useStyles = createStyles(
         }
       `,
       navbar: css`
-        background: ${token.colorBgContainer};
+        background: ${isDarkMode ? token.colorBgContainer : token.colorFillTertiary};
+
+        @media (max-width: 768px) {
+          background: ${token.colorBgContainer};
+        }
       `,
       navbarButton: css`
         line-height: 2;
@@ -68,10 +73,10 @@ export const useStyles = createStyles(
         }
       `,
       scrollBox: css`
-        background: ${token.colorBgLayout};
+        background: ${isDarkMode ? token.colorFillQuaternary : token.colorBgElevated};
         border: unset;
         border-radius: unset;
-        box-shadow: 0 1px 0 1px ${token.colorSplit};
+        box-shadow: 0 1px 0 1px ${token.colorFillTertiary};
       `,
       socialButtons: css`
         display: flex;
@@ -107,7 +112,7 @@ export const useAppearance = () => {
       colorDanger: theme.colorError,
       colorInputBackground: theme.colorFillTertiary,
       colorNeutral: theme.colorText,
-      colorPrimary: theme.colorPrimary,
+
       colorSuccess: theme.colorSuccess,
       colorText: theme.colorText,
       colorTextSecondary: theme.colorTextDescription,

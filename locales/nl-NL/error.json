@@ -12,6 +12,8 @@
     "retry": "Opnieuw proberen",
     "title": "Er is een probleem opgetreden op de pagina.."
   },
+  "fetchError": "Verzoek mislukt",
+  "fetchErrorDetail": "Foutdetails",
   "notFound": {
     "backHome": "Terug naar startpagina",
     "desc": "We kunnen de pagina die je zoekt niet vinden, controleer of de link juist is",
@@ -55,6 +57,7 @@
     "AnthropicBizError": "Er is een fout opgetreden bij het aanvragen van de Anthropic AI-service. Controleer de onderstaande informatie en probeer het opnieuw.",
     "AzureBizError": "Error requesting Azure AI service, please troubleshoot or retry based on the following information",
     "BedrockBizError": "Error requesting Bedrock service, please troubleshoot or retry based on the following information",
+    "DeepSeekBizError": "Er is een fout opgetreden bij het aanvragen van de DeepSeek-service. Controleer de volgende informatie en probeer het opnieuw.",
     "GoogleBizError": "Error requesting Google service, please troubleshoot or retry based on the following information",
     "GroqBizError": "Er is een fout opgetreden bij het aanroepen van de Groq-service. Controleer de onderstaande informatie of probeer het opnieuw.",
     "InvalidAccessCode": "Ongeldige toegangscode: het wachtwoord is onjuist of leeg. Voer de juiste toegangscode in of voeg een aangepaste API-sleutel toe.",
@@ -62,6 +65,7 @@
     "InvalidAzureAPIKey": "Incorrect or empty Azure API Key, please check the Azure API Key and retry",
     "InvalidBedrockCredentials": "Bedrock authentication failed, please check AccessKeyId/SecretAccessKey and retry",
     "InvalidClerkUser": "Sorry, you are not currently logged in. Please log in or register an account to continue.",
+    "InvalidDeepSeekAPIKey": "DeepSeek API-sleutel is onjuist of leeg. Controleer de DeepSeek API-sleutel en probeer het opnieuw.",
     "InvalidGoogleAPIKey": "Incorrect or empty Google API Key, please check the Google API Key and retry",
     "InvalidGroqAPIKey": "Groq API Key is onjuist of leeg. Controleer de Groq API Key en probeer het opnieuw.",
     "InvalidMinimaxAPIKey": "Ongeldige of lege Minimax API-sleutel. Controleer de Minimax API-sleutel en probeer het opnieuw.",
@@ -70,6 +74,7 @@
     "InvalidOllamaArgs": "Ollama-configuratie is onjuist, controleer de Ollama-configuratie en probeer het opnieuw",
     "InvalidOpenRouterAPIKey": "OpenRouter API Key is onjuist of leeg. Controleer de OpenRouter API Key en probeer het opnieuw.",
     "InvalidPerplexityAPIKey": "Perplexity API Key is onjuist of leeg. Controleer de Perplexity API Key en probeer het opnieuw.",
+    "InvalidQwenAPIKey": "Incorrect or empty Qwen API Key, please check the Qwen API Key and retry",
     "InvalidTogetherAIAPIKey": "TogetherAI API Key is onjuist of leeg. Controleer de TogetherAI API Key en probeer het opnieuw.",
     "InvalidZeroOneAPIKey": "Ongeldige ZeroOneAPI-sleutel of leeg, controleer de ZeroOneAPI-sleutel en probeer het opnieuw",
     "InvalidZhipuAPIKey": "Incorrect or empty Zhipu API Key, please check the Zhipu API Key and retry",
@@ -95,6 +100,7 @@
     "PluginOpenApiInitError": "Sorry, initialisatie van de OpenAPI-client is mislukt. Controleer of de configuratie van OpenAPI juist is",
     "PluginServerError": "Fout bij serverrespons voor plug-in. Controleer de foutinformatie hieronder voor uw plug-inbeschrijvingsbestand, plug-inconfiguratie of serverimplementatie",
     "PluginSettingsInvalid": "Deze plug-in moet correct geconfigureerd zijn voordat deze kan worden gebruikt. Controleer of uw configuratie juist is",
+    "QwenBizError": "Error requesting Qwen service, please troubleshoot or retry based on the following information",
     "TogetherAIBizError": "Fout bij het aanvragen van TogetherAI AI-service. Controleer de onderstaande informatie en probeer opnieuw.",
     "ZeroOneBizError": "请求零一万物服务出错，请根据以下信息排查或重试",
     "ZhipuBizError": "Error requesting Zhipu service, please troubleshoot or retry based on the following information"
@@ -132,5 +138,9 @@
       "apiKey": "Custom API Key",
       "password": "Password"
     }
+  },
+  "upload": {
+    "desc": "Details: {{detail}}",
+    "title": "Bestand uploaden mislukt, controleer uw internetverbinding of probeer het later opnieuw"
   }
 }

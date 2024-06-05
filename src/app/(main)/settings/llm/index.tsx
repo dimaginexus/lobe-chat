@@ -5,6 +5,7 @@ import { Flexbox } from 'react-layout-kit';
 import Anthropic from './Anthropic';
 import Azure from './Azure';
 import Bedrock from './Bedrock';
+import DeepSeek from './DeepSeek';
 import Google from './Google';
 import Groq from './Groq';
 import Minimax from './Minimax';
@@ -14,6 +15,7 @@ import Ollama from './Ollama';
 import OpenAI from './OpenAI';
 import OpenRouter from './OpenRouter';
 import Perplexity from './Perplexity';
+import Qwen from './Qwen';
 import TogetherAI from './TogetherAI';
 import ZeroOne from './ZeroOne';
 import Zhipu from './Zhipu';
@@ -21,17 +23,19 @@ import Footer from './components/Footer';
 
 const Page = () => {
   return (
-    <Flexbox gap={24}>
+    <Flexbox gap={24} width={'100%'}>
       <OpenAI />
       <Ollama />
       <Azure />
       <Google />
       <Anthropic />
       <Bedrock />
+      <DeepSeek />
       <OpenRouter />
       <TogetherAI />
       <Groq />
       <Perplexity />
+      <Qwen />
       <Minimax />
       <Mistral />
       <Moonshot />

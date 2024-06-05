@@ -12,6 +12,8 @@
     "retry": "다시 시도",
     "title": "페이지에서 문제가 발생했습니다."
   },
+  "fetchError": "요청 실패",
+  "fetchErrorDetail": "오류 상세",
   "notFound": {
     "backHome": "홈페이지로 돌아가기",
     "desc": "찾고 있는 페이지를 찾을 수 없습니다. 링크가 올바른지 확인해주세요.",
@@ -55,6 +57,7 @@
     "AnthropicBizError": "Anthropic AI 서비스 요청 중 오류가 발생했습니다. 다음 정보를 확인하고 다시 시도하십시오.",
     "AzureBizError": "Azure AI 서비스 요청 중 오류가 발생했습니다. 아래 정보를 확인하고 다시 시도하십시오.",
     "BedrockBizError": "Bedrock 서비스 요청 중 오류가 발생했습니다. 아래 정보를 확인하고 다시 시도하십시오.",
+    "DeepSeekBizError": "DeepSeek 서비스 요청 중 오류가 발생했습니다. 아래 정보를 확인하고 다시 시도하십시오.",
     "GoogleBizError": "Google 서비스 요청 중 오류가 발생했습니다. 아래 정보를 확인하고 다시 시도하십시오.",
     "GroqBizError": "Groq 서비스 요청 중 오류가 발생했습니다. 아래 정보를 확인하고 다시 시도해주세요.",
     "InvalidAccessCode": "액세스 코드가 잘못되었거나 비어 있습니다. 올바른 액세스 코드를 입력하거나 사용자 지정 API 키를 추가하십시오.",
@@ -62,6 +65,7 @@
     "InvalidAzureAPIKey": "잘못된 또는 비어 있는 Azure API Key입니다. Azure API Key를 확인한 후 다시 시도하십시오.",
     "InvalidBedrockCredentials": "Bedrock 인증에 실패했습니다. AccessKeyId/SecretAccessKey를 확인한 후 다시 시도하십시오.",
     "InvalidClerkUser": "죄송합니다. 현재 로그인되어 있지 않습니다. 계속하려면 먼저 로그인하거나 계정을 등록해주세요.",
+    "InvalidDeepSeekAPIKey": "DeepSeek API 키가 잘못되었거나 비어 있습니다. DeepSeek API 키를 확인한 후 다시 시도하십시오.",
     "InvalidGoogleAPIKey": "잘못된 또는 비어 있는 Google API Key입니다. Google API Key를 확인한 후 다시 시도하십시오.",
     "InvalidGroqAPIKey": "잘못된 또는 비어 있는 Groq API Key입니다. Groq API Key를 확인한 후 다시 시도하십시오.",
     "InvalidMinimaxAPIKey": "잘못된 Minimax API 키이거나 비어 있습니다. Minimax API 키를 확인한 후 다시 시도해주세요.",
@@ -70,6 +74,7 @@
     "InvalidOllamaArgs": "Ollama 구성이 잘못되었습니다. Ollama 구성을 확인한 후 다시 시도하십시오.",
     "InvalidOpenRouterAPIKey": "OpenRouter API 키가 잘못되었거나 비어 있습니다. OpenRouter API 키를 확인한 후 다시 시도하십시오.",
     "InvalidPerplexityAPIKey": "Perplexity API 키가 잘못되었거나 비어 있습니다. Perplexity API 키를 확인한 후 다시 시도하십시오.",
+    "InvalidQwenAPIKey": "잘못된 또는 비어 있는 Qwen API Key입니다. Qwen API Key를 확인한 후 다시 시도하십시오.",
     "InvalidTogetherAIAPIKey": "TogetherAI API 키가 잘못되었거나 비어 있습니다. TogetherAI API 키를 확인한 후 다시 시도하십시오.",
     "InvalidZeroOneAPIKey": "잘못된 또는 빈 제로원물 API 키입니다. 제로원물 API 키를 확인하고 다시 시도해주세요.",
     "InvalidZhipuAPIKey": "잘못된 또는 비어 있는 Zhipu API Key입니다. Zhipu API Key를 확인한 후 다시 시도하십시오.",
@@ -95,6 +100,7 @@
     "PluginOpenApiInitError": "죄송합니다. OpenAPI 클라이언트 초기화에 실패했습니다. OpenAPI 구성 정보를 확인해주세요.",
     "PluginServerError": "플러그인 서버 요청이 오류로 반환되었습니다. 플러그인 설명 파일, 플러그인 구성 또는 서버 구현을 확인해주세요.",
     "PluginSettingsInvalid": "플러그인을 사용하려면 올바른 구성이 필요합니다. 구성이 올바른지 확인해주세요.",
+    "QwenBizError": "Qwen 서비스 요청 중 오류가 발생했습니다. 아래 정보를 확인하고 다시 시도하십시오.",
     "TogetherAIBizError": "TogetherAI AI 서비스 요청 중 오류가 발생했습니다. 다음 정보를 확인하고 다시 시도하십시오.",
     "ZeroOneBizError": "제로원물 서비스 요청 중 오류가 발생했습니다. 아래 정보를 확인하고 다시 시도해주세요.",
     "ZhipuBizError": "Zhipu 서비스 요청 중 오류가 발생했습니다. 아래 정보를 확인하고 다시 시도하십시오."
@@ -132,5 +138,9 @@
       "apiKey": "사용자 정의 API Key",
       "password": "비밀번호"
     }
+  },
+  "upload": {
+    "desc": "상세 내용: {{detail}}",
+    "title": "파일 업로드 실패, 네트워크 연결을 확인하거나 나중에 다시 시도해주세요"
   }
 }

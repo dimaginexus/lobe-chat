@@ -5,6 +5,7 @@ export default {
   agentDefaultMessage:
     '你好，我是 **{{name}}**，你可以立即与我开始对话，也可以前往 [助手设置](/chat/settings#session={{id}}) 完善我的信息。',
   agentDefaultMessageWithSystemRole: '你好，我是 **{{name}}**，{{systemRole}}，让我们开始对话吧！',
+  agentsAndConversations: '助手与会话',
   backToBottom: '跳转至当前',
   clearCurrentMessages: '清空当前会话消息',
   confirmClearCurrentMessages: '即将清空当前会话消息，清空后将无法找回，请确认你的操作',
@@ -84,6 +85,7 @@ export default {
     chats: '会话消息',
     rest: '剩余可用',
     systemRole: '角色设定',
+    title: '上下文明细',
     tools: '插件设定',
     total: '总共可用',
     used: '总计使用',

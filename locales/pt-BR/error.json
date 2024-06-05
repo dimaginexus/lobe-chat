@@ -12,6 +12,8 @@
     "retry": "Tentar novamente",
     "title": "Ocorreu um problema na página.."
   },
+  "fetchError": "Falha na solicitação",
+  "fetchErrorDetail": "Detalhes do erro",
   "notFound": {
     "backHome": "Voltar para a página inicial",
     "desc": "Não conseguimos encontrar a página que você está procurando, por favor, verifique se o link está correto",
@@ -55,6 +57,7 @@
     "AnthropicBizError": "Erro de negócios ao solicitar o serviço Anthropic AI. Por favor, verifique as informações abaixo ou tente novamente.",
     "AzureBizError": "Erro ao solicitar o serviço Azure AI, por favor, verifique as informações abaixo ou tente novamente",
     "BedrockBizError": "Erro ao solicitar o serviço Bedrock, por favor, verifique as informações abaixo ou tente novamente",
+    "DeepSeekBizError": "Erro de negócio ao solicitar o serviço DeepSeek, por favor, verifique as informações abaixo ou tente novamente",
     "GoogleBizError": "Erro ao solicitar o serviço Google, por favor, verifique as informações abaixo ou tente novamente",
     "GroqBizError": "O serviço Groq encontrou um erro. Por favor, verifique as informações abaixo ou tente novamente.",
     "InvalidAccessCode": "Senha de acesso inválida ou em branco. Por favor, insira a senha de acesso correta ou adicione uma Chave de API personalizada.",
@@ -62,6 +65,7 @@
     "InvalidAzureAPIKey": "Chave de API Azure incorreta ou vazia, por favor, verifique a chave de API Azure e tente novamente",
     "InvalidBedrockCredentials": "Credenciais Bedrock inválidas, por favor, verifique AccessKeyId/SecretAccessKey e tente novamente",
     "InvalidClerkUser": "Desculpe, você ainda não fez login. Por favor, faça login ou registre uma conta antes de continuar.",
+    "InvalidDeepSeekAPIKey": "Chave da API DeepSeek inválida ou em branco, por favor, verifique a chave da API DeepSeek e tente novamente",
     "InvalidGoogleAPIKey": "Chave de API Google incorreta ou vazia, por favor, verifique a chave de API Google e tente novamente",
     "InvalidGroqAPIKey": "Chave de API Groq AI inválida ou em branco, verifique a chave de API Groq e tente novamente",
     "InvalidMinimaxAPIKey": "Chave de API Minimax inválida ou em branco, verifique a chave de API Minimax e tente novamente",
@@ -70,6 +74,7 @@
     "InvalidOllamaArgs": "Configuração Ollama inválida, verifique a configuração do Ollama e tente novamente",
     "InvalidOpenRouterAPIKey": "Chave da API do OpenRouter inválida ou em branco. Por favor, verifique a chave da API do OpenRouter e tente novamente.",
     "InvalidPerplexityAPIKey": "Chave da API Perplexity inválida ou em branco, verifique a chave da API Perplexity e tente novamente",
+    "InvalidQwenAPIKey": "Chave de API Qwen incorreta ou vazia, por favor, verifique a chave de API Qwen e tente novamente",
     "InvalidTogetherAIAPIKey": "Chave da API do TogetherAI inválida ou em branco. Por favor, verifique a chave da API do TogetherAI e tente novamente.",
     "InvalidZeroOneAPIKey": "Chave de API ZeroOne inválida ou vazia, verifique a chave de API ZeroOne e tente novamente",
     "InvalidZhipuAPIKey": "Chave de API Zhipu incorreta ou vazia, por favor, verifique a chave de API Zhipu e tente novamente",
@@ -95,6 +100,7 @@
     "PluginOpenApiInitError": "Desculpe, a inicialização do cliente OpenAPI falhou. Verifique se as informações de configuração do OpenAPI estão corretas",
     "PluginServerError": "Erro na resposta do servidor do plugin. Verifique o arquivo de descrição do plugin, a configuração do plugin ou a implementação do servidor de acordo com as informações de erro abaixo",
     "PluginSettingsInvalid": "Este plugin precisa ser configurado corretamente antes de ser usado. Verifique se sua configuração está correta",
+    "QwenBizError": "Erro ao solicitar o serviço Qwen, por favor, verifique as informações abaixo ou tente novamente",
     "TogetherAIBizError": "Erro de negócios ao solicitar o serviço de IA do TogetherAI. Por favor, verifique as informações abaixo ou tente novamente.",
     "ZeroOneBizError": "Erro no serviço ZeroOneBiz, verifique as informações abaixo e tente novamente",
     "ZhipuBizError": "Erro ao solicitar o serviço Zhipu, por favor, verifique as informações abaixo ou tente novamente"
@@ -132,5 +138,9 @@
       "apiKey": "Chave de API personalizada",
       "password": "Senha"
     }
+  },
+  "upload": {
+    "desc": "Detalhes: {{detail}}",
+    "title": "Falha ao enviar o arquivo, verifique a conexão de rede ou tente novamente mais tarde"
   }
 }

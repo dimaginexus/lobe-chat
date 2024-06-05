@@ -1,6 +1,7 @@
 'use client';
 
 import { createStyles } from 'antd-style';
+import { rgba } from 'polished';
 import { memo } from 'react';
 
 const useStyles = createStyles(
@@ -8,7 +9,7 @@ const useStyles = createStyles(
     flex: none;
     width: 100%;
     height: 6px;
-    background: ${isDarkMode ? token.colorBgContainer : token.colorBgLayout};
+    background: ${isDarkMode ? rgba(token.colorFillTertiary, 0.04) : token.colorFillTertiary};
   `,
 );
 

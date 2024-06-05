@@ -1,8 +1,8 @@
 /* eslint-disable sort-keys-fix/sort-keys-fix, typescript-sort-keys/interface */
 // Note: To make the code more logic and readable, we just disable the auto sort key eslint rule
 // DON'T REMOVE THE FIRST LINE
+import isEqual from 'fast-deep-equal';
 import { t } from 'i18next';
-import { produce } from 'immer';
 import useSWR, { SWRResponse, mutate } from 'swr';
 import { StateCreator } from 'zustand/vanilla';
 
@@ -16,15 +16,18 @@ import { messageService } from '@/services/message';
 import { topicService } from '@/services/topic';
 import { CreateTopicParams } from '@/services/topic/type';
 import type { ChatStore } from '@/store/chat';
+import { useUserStore } from '@/store/user';
+import { systemAgentSelectors } from '@/store/user/selectors';
 import { ChatMessage } from '@/types/message';
 import { ChatTopic } from '@/types/topic';
+import { merge } from '@/utils/merge';
 import { setNamespace } from '@/utils/storeDebug';
 
 import { chatSelectors } from '../message/selectors';
 import { ChatTopicDispatch, topicReducer } from './reducer';
 import { topicSelectors } from './selectors';
 
-const n = setNamespace('topic');
+const n = setNamespace('t');
 
 const SWR_USE_FETCH_TOPIC = 'SWR_USE_FETCH_TOPIC';
 const SWR_USE_SEARCH_TOPIC = 'SWR_USE_SEARCH_TOPIC';
@@ -36,17 +39,19 @@ export interface ChatTopicAction {
   removeAllTopics: () => Promise<void>;
   removeSessionTopics: () => Promise<void>;
   removeTopic: (id: string) => Promise<void>;
-  removeUnstarredTopic: () => void;
+  removeUnstarredTopic: () => Promise<void>;
   saveToTopic: () => Promise<string | undefined>;
+  createTopic: () => Promise<string | undefined>;
+
   autoRenameTopicTitle: (id: string) => Promise<void>;
   duplicateTopic: (id: string) => Promise<void>;
   summaryTopicTitle: (topicId: string, messages: ChatMessage[]) => Promise<void>;
-  switchTopic: (id?: string) => Promise<void>;
-  updateTopicTitleInSummary: (id: string, title: string) => void;
+  switchTopic: (id?: string, skipRefreshMessage?: boolean) => Promise<void>;
   updateTopicTitle: (id: string, title: string) => Promise<void>;
   useFetchTopics: (sessionId: string) => SWRResponse<ChatTopic[]>;
   useSearchTopics: (keywords?: string, sessionId?: string) => SWRResponse<ChatTopic[]>;
 
+  internal_updateTopicTitleInSummary: (id: string, title: string) => void;
   internal_updateTopicLoading: (id: string, loading: boolean) => void;
   internal_createTopic: (params: CreateTopicParams) => Promise<string>;
   internal_updateTopic: (id: string, data: Partial<ChatTopic>) => Promise<void>;
@@ -69,6 +74,22 @@ export const chatTopic: StateCreator<
       await saveToTopic();
       refreshMessages();
     }
+  },
+
+  createTopic: async () => {
+    const { activeId, internal_createTopic } = get();
+
+    const messages = chatSelectors.currentChats(get());
+
+    set({ creatingTopic: true }, false, n('creatingTopic/start'));
+    const topicId = await internal_createTopic({
+      sessionId: activeId,
+      title: t('topic.defaultTitle', { ns: 'chat' }),
+      messages: messages.map((m) => m.id),
+    });
+    set({ creatingTopic: false }, false, n('creatingTopic/end'));
+
+    return topicId;
   },
 
   saveToTopic: async () => {
@@ -115,18 +136,21 @@ export const chatTopic: StateCreator<
   },
   // update
   summaryTopicTitle: async (topicId, messages) => {
-    const { updateTopicTitleInSummary, internal_updateTopicLoading } = get();
+    const { internal_updateTopicTitleInSummary, internal_updateTopicLoading } = get();
     const topic = topicSelectors.getTopicById(topicId)(get());
     if (!topic) return;
 
-    updateTopicTitleInSummary(topicId, LOADING_FLAT);
+    internal_updateTopicTitleInSummary(topicId, LOADING_FLAT);
 
     let output = '';
 
-    // 自动总结话题标题
+    // Get current agent for topic
+    const topicConfig = systemAgentSelectors.topic(useUserStore.getState());
+
+    // Automatically summarize the topic title
     await chatService.fetchPresetTaskResult({
       onError: () => {
-        updateTopicTitleInSummary(topicId, topic.title);
+        internal_updateTopicTitleInSummary(topicId, topic.title);
       },
       onFinish: async (text) => {
         await get().internal_updateTopic(topicId, { title: text });
@@ -134,11 +158,16 @@ export const chatTopic: StateCreator<
       onLoadingChange: (loading) => {
         internal_updateTopicLoading(topicId, loading);
       },
-      onMessageHandle: (x) => {
-        output += x;
-        updateTopicTitleInSummary(topicId, output);
+      onMessageHandle: (chunk) => {
+        switch (chunk.type) {
+          case 'text': {
+            output += chunk.text;
+          }
+        }
+
+        internal_updateTopicTitleInSummary(topicId, output);
       },
-      params: await chainSummaryTitle(messages),
+      params: merge(topicConfig, chainSummaryTitle(messages)),
       trace: get().getCurrentTracePayload({ traceName: TraceNameMap.SummaryTopicTitle, topicId }),
     });
   },
@@ -166,8 +195,19 @@ export const chatTopic: StateCreator<
       [SWR_USE_FETCH_TOPIC, sessionId],
       async ([, sessionId]: [string, string]) => topicService.getTopics({ sessionId }),
       {
+        suspense: true,
+        fallbackData: [],
         onSuccess: (topics) => {
-          set({ topics, topicsInit: true }, false, n('useFetchTopics(success)', { sessionId }));
+          const nextMap = { ...get().topicMaps, [sessionId]: topics };
+
+          // no need to update map if the topics have been init and the map is the same
+          if (get().topicsInit && isEqual(nextMap, get().topicMaps)) return;
+
+          set(
+            { topicMaps: nextMap, topicsInit: true },
+            false,
+            n('useFetchTopics(success)', { sessionId }),
+          );
         },
       },
     ),
@@ -182,9 +222,10 @@ export const chatTopic: StateCreator<
         },
       },
     ),
-  switchTopic: async (id) => {
-    set({ activeTopicId: id }, false, n('toggleTopic'));
+  switchTopic: async (id, skipRefreshMessage) => {
+    set({ activeTopicId: !id ? (null as any) : id }, false, n('toggleTopic'));
 
+    if (skipRefreshMessage) return;
     await get().refreshMessages();
   },
   // delete
@@ -229,15 +270,11 @@ export const chatTopic: StateCreator<
   },
 
   // Internal process method of the topics
-  updateTopicTitleInSummary: (id, title) => {
-    const topics = produce(get().topics, (draftState) => {
-      const topic = draftState.find((i) => i.id === id);
-
-      if (!topic) return;
-      topic.title = title;
-    });
-
-    set({ topics }, false, n(`updateTopicTitleInSummary`, { id, title }));
+  internal_updateTopicTitleInSummary: (id, title) => {
+    get().internal_dispatchTopic(
+      { type: 'updateTopic', id, value: { title } },
+      'updateTopicTitleInSummary',
+    );
   },
   refreshTopic: async () => {
     return mutate([SWR_USE_FETCH_TOPIC, get().activeId]);
@@ -265,7 +302,10 @@ export const chatTopic: StateCreator<
   },
   internal_createTopic: async (params) => {
     const tmpId = Date.now().toString();
-    get().internal_dispatchTopic({ type: 'addTopic', value: { ...params, id: tmpId } });
+    get().internal_dispatchTopic(
+      { type: 'addTopic', value: { ...params, id: tmpId } },
+      'internal_createTopic',
+    );
 
     get().internal_updateTopicLoading(tmpId, true);
     const topicId = await topicService.createTopic(params);
@@ -279,8 +319,12 @@ export const chatTopic: StateCreator<
   },
 
   internal_dispatchTopic: (payload, action) => {
-    const nextTopics = topicReducer(get().topics, payload);
+    const nextTopics = topicReducer(topicSelectors.currentTopics(get()), payload);
+    const nextMap = { ...get().topicMaps, [get().activeId]: nextTopics };
 
-    set({ topics: nextTopics }, false, action);
+    // no need to update map if is the same
+    if (isEqual(nextMap, get().topicMaps)) return;
+
+    set({ topicMaps: nextMap }, false, action ?? n(`dispatchTopic/${payload.type}`));
   },
 });

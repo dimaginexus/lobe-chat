@@ -12,6 +12,12 @@
   "copy": "Copiar",
   "copyFail": "Fallo al copiar",
   "copySuccess": "¡Copia exitosa!",
+  "dataStatistics": {
+    "messages": "Mensajes",
+    "sessions": "Sesiones",
+    "today": "Hoy",
+    "topics": "Temas"
+  },
   "defaultAgent": "Asistente predeterminado",
   "defaultSession": "Sesión predeterminada",
   "delete": "Eliminar",
@@ -33,6 +39,10 @@
   "historyRange": "Rango de historial",
   "import": "Importar configuración",
   "importModal": {
+    "error": {
+      "desc": "Lo sentimos mucho, se produjo un error durante el proceso de importación de datos. Inténtalo de nuevo o <1>envía un informe</1>, y te ayudaremos a solucionar el problema lo antes posible.",
+      "title": "Error en la importación de datos"
+    },
     "finish": {
       "onlySettings": "La importación de la configuración del sistema se ha completado",
       "start": "Comenzar a usar",
@@ -40,6 +50,7 @@
       "title": "Importación de datos completada"
     },
     "loading": "Importando datos, por favor espere...",
+    "preparing": "Preparando el módulo de importación de datos...",
     "result": {
       "added": "Importación exitosa",
       "errors": "Errores de importación",
@@ -50,8 +61,14 @@
       "topics": "Temas",
       "type": "Tipo de datos"
     },
-    "title": "Importar datos"
+    "title": "Importar datos",
+    "uploading": {
+      "desc": "El archivo actual es grande, se está subiendo... ",
+      "restTime": "Tiempo restante",
+      "speed": "Velocidad de carga"
+    }
   },
+  "installPWA": "Instalar la aplicación del navegador",
   "lang": {
     "ar": "árabe",
     "bg-BG": "búlgaro",
@@ -163,6 +180,7 @@
   "userPanel": {
     "anonymousNickName": "Usuario Anónimo",
     "billing": "Gestión de facturación",
+    "data": "Almacenamiento de datos",
     "defaultNickname": "Usuario de la comunidad",
     "discord": "Soporte de la comunidad",
     "docs": "Documentación de uso",

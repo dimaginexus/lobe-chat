@@ -2,6 +2,14 @@
   "about": {
     "title": "Informazioni"
   },
+  "agentTab": {
+    "chat": "Preferenze di chat",
+    "meta": "Informazioni assistente",
+    "modal": "Impostazioni modello",
+    "plugin": "Impostazioni plugin",
+    "prompt": "Impostazioni ruolo",
+    "tts": "Servizio vocale"
+  },
   "analytics": {
     "telemetry": {
       "desc": "Attivando l'invio dei dati di telemetria, ci aiuti a migliorare complessivamente l'esperienza utente di LobeChat",
@@ -38,7 +46,6 @@
     "checker": {
       "button": "Verifica",
       "desc": "Verifica se la chiave API e l'indirizzo del proxy sono stati inseriti correttamente",
-      "ollamaDesc": "Verifica se l'indirizzo del proxy è stato compilato correttamente",
       "pass": "Verifica superata",
       "title": "Verifica di connettività"
     },
@@ -71,7 +78,8 @@
         },
         "modalTitle": "Configurazione del modello personalizzato",
         "tokens": {
-          "title": "Numero massimo di token"
+          "title": "Numero massimo di token",
+          "unlimited": "illimitato"
         },
         "vision": {
           "extra": "Questa configurazione abiliterà solo la funzionalità di caricamento delle immagini in LobeChat. La reale capacità di riconoscimento dipende interamente dal modello stesso, si consiglia di testare autonomamente la disponibilità di questa funzionalità nel modello.",
@@ -94,6 +102,10 @@
       "placeholder": "Seleziona un modello dall'elenco",
       "title": "Elenco dei modelli",
       "total": "Totale modelli disponibili: {{count}}"
+    },
+    "proxyUrl": {
+      "desc": "Deve includere http(s):// oltre all'indirizzo predefinito",
+      "title": "Indirizzo del proxy API"
     },
     "waitingForMore": "Altri modelli sono in fase di <1> pianificazione per l'integrazione </1>, resta sintonizzato ✨"
   },
@@ -170,6 +182,7 @@
     "enableHistoryCount": {
       "alias": "Illimitato",
       "limited": "Include solo {{number}} messaggi di conversazione",
+      "setlimited": "Imposta il numero di messaggi storici da utilizzare",
       "title": "Limita il numero di messaggi storici",
       "unlimited": "Numero illimitato di messaggi storici"
     },
@@ -355,6 +368,19 @@
       "title": "Sincronizzazione WebRTC"
     }
   },
+  "systemAgent": {
+    "title": "Assistente di sistema",
+    "topic": {
+      "label": "Modello di denominazione degli argomenti",
+      "modelDesc": "Modello designato per la ridenominazione automatica degli argomenti",
+      "title": "Ridenominazione automatica degli argomenti"
+    },
+    "translation": {
+      "label": "Modello di traduzione",
+      "modelDesc": "Modello specificato per la traduzione",
+      "title": "Impostazioni dell'assistente di traduzione"
+    }
+  },
   "tab": {
     "about": "Informazioni",
     "agent": "Assistente predefinito",
@@ -362,6 +388,7 @@
     "experiment": "实验",
     "llm": "Modello linguistico",
     "sync": "云端同步",
+    "system-agent": "Assistente di sistema",
     "tts": "Servizio vocale"
   },
   "tools": {

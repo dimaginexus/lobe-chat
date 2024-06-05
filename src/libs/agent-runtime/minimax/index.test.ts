@@ -1,5 +1,4 @@
 // @vitest-environment edge-runtime
-import { StreamingTextResponse } from 'ai';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { ChatStreamPayload, ModelProvider } from '@/libs/agent-runtime';
@@ -62,7 +61,7 @@ describe('LobeMinimaxAI', () => {
         temperature: 0,
       });
 
-      expect(result).toBeInstanceOf(StreamingTextResponse);
+      expect(result).toBeInstanceOf(Response);
     });
 
     it('should handle text messages correctly', async () => {
@@ -85,7 +84,7 @@ describe('LobeMinimaxAI', () => {
         temperature: 0,
       });
 
-      expect(result).toBeInstanceOf(StreamingTextResponse);
+      expect(result).toBeInstanceOf(Response);
     });
 
     it('should call debugStream in DEBUG mode', async () => {

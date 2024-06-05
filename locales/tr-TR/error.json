@@ -12,6 +12,8 @@
     "retry": "Yeniden Yükle",
     "title": "Sayfa bir sorunla karşılaştı.."
   },
+  "fetchError": "İstek başarısız oldu",
+  "fetchErrorDetail": "Hata detayı",
   "notFound": {
     "backHome": "Ana Sayfaya Dön",
     "desc": "Aradığınız sayfayı bulamadık, lütfen bağlantının doğru olduğundan emin olun",
@@ -55,6 +57,7 @@
     "AnthropicBizError": "Anthropic AI hizmetine yönelik istek hatası, lütfen aşağıdaki bilgilere göre sorunu gidermeye çalışın veya tekrar deneyin",
     "AzureBizError": "Azure AI servisi isteği hatası, lütfen aşağıdaki bilgilere göre sorunu gidermeye çalışın veya tekrar deneyin",
     "BedrockBizError": "Bedrock servisi isteği hatası, lütfen aşağıdaki bilgilere göre sorunu gidermeye çalışın veya tekrar deneyin",
+    "DeepSeekBizError": "DeepSeek hizmetine yapılan istekte hata oluştu, lütfen aşağıdaki bilgilere göre sorunu gidermeye çalışın veya tekrar deneyin",
     "GoogleBizError": "Google servisi isteği hatası, lütfen aşağıdaki bilgilere göre sorunu gidermeye çalışın veya tekrar deneyin",
     "GroqBizError": "Groq hizmeti isteği sırasında bir hata oluştu. Lütfen aşağıdaki bilgilere göre sorunu giderin veya tekrar deneyin",
     "InvalidAccessCode": "Geçersiz Erişim Kodu: Geçersiz veya boş bir şifre girdiniz. Lütfen doğru erişim şifresini girin veya özel API Anahtarı ekleyin.",
@@ -62,6 +65,7 @@
     "InvalidAzureAPIKey": "Azure API Anahtarı yanlış veya boş, lütfen Azure API Anahtarınızı kontrol edip tekrar deneyin",
     "InvalidBedrockCredentials": "Bedrock kimlik doğrulaması geçersiz, lütfen AccessKeyId/SecretAccessKey bilgilerinizi kontrol edip tekrar deneyin",
     "InvalidClerkUser": "Üzgünüz, şu anda giriş yapmadınız. Lütfen işlemlere devam etmeden önce giriş yapın veya hesap oluşturun",
+    "InvalidDeepSeekAPIKey": "DeepSeek API Anahtarı geçersiz veya boş, lütfen DeepSeek API Anahtarınızı kontrol edip tekrar deneyin",
     "InvalidGoogleAPIKey": "Google API Anahtarı yanlış veya boş, lütfen Google API Anahtarınızı kontrol edip tekrar deneyin",
     "InvalidGroqAPIKey": "Groq API Anahtarı yanlış veya boş, lütfen Groq API Anahtarınızı kontrol edip tekrar deneyin",
     "InvalidMinimaxAPIKey": "Minimax API Anahtarı geçersiz veya boş, lütfen Minimax API Anahtarınızı kontrol edip tekrar deneyin",
@@ -70,6 +74,7 @@
     "InvalidOllamaArgs": "Ollama yapılandırması yanlış, lütfen Ollama yapılandırmasını kontrol edip tekrar deneyin",
     "InvalidOpenRouterAPIKey": "OpenRouter API Anahtarı geçersiz veya boş, lütfen OpenRouter API Anahtarınızı kontrol edip tekrar deneyin",
     "InvalidPerplexityAPIKey": "Perplexity API Key geçersiz veya boş, lütfen Perplexity API Key'inizi kontrol edip tekrar deneyin",
+    "InvalidQwenAPIKey": "Qwen API Anahtarı yanlış veya boş, lütfen Qwen API Anahtarınızı kontrol edip tekrar deneyin",
     "InvalidTogetherAIAPIKey": "TogetherAI API Anahtarı geçersiz veya boş, lütfen TogetherAI API Anahtarınızı kontrol edip tekrar deneyin",
     "InvalidZeroOneAPIKey": "SıfırBirIoT API Anahtarı geçersiz veya boş. Lütfen SıfırBirIoT API Anahtarınızı kontrol edip tekrar deneyin",
     "InvalidZhipuAPIKey": "Zhipu API Anahtarı yanlış veya boş, lütfen Zhipu API Anahtarınızı kontrol edip tekrar deneyin",
@@ -95,6 +100,7 @@
     "PluginOpenApiInitError": "Üzgünüz, OpenAPI istemci başlatma hatası, lütfen OpenAPI yapılandırma bilgilerini kontrol edin",
     "PluginServerError": "Eklenti sunucusu isteği bir hata ile döndü. Lütfen aşağıdaki hata bilgilerine dayanarak eklenti bildirim dosyanızı, eklenti yapılandırmanızı veya sunucu uygulamanızı kontrol edin",
     "PluginSettingsInvalid": "Bu eklenti, kullanılmadan önce doğru şekilde yapılandırılmalıdır. Lütfen yapılandırmanızın doğru olup olmadığını kontrol edin",
+    "QwenBizError": "Qwen servisi isteği hatası, lütfen aşağıdaki bilgilere göre sorunu gidermeye çalışın veya tekrar deneyin",
     "TogetherAIBizError": "TogetherAI AI hizmetine yönelik istek hatası, lütfen aşağıdaki bilgilere göre sorunu gidermeye çalışın veya tekrar deneyin",
     "ZeroOneBizError": "SıfırBirIoT hizmetine yapılan istekte bir hata oluştu. Lütfen aşağıdaki bilgilere göre sorunu gidermeye çalışın veya tekrar deneyin",
     "ZhipuBizError": "Zhipu servisi isteği hatası, lütfen aşağıdaki bilgilere göre sorunu gidermeye çalışın veya tekrar deneyin"
@@ -132,5 +138,9 @@
       "apiKey": "Özel API Anahtarı",
       "password": "Şifre"
     }
+  },
+  "upload": {
+    "desc": "Detay: {{detail}}",
+    "title": "Dosya yükleme başarısız, lütfen ağ bağlantınızı kontrol edin veya daha sonra tekrar deneyin"
   }
 }

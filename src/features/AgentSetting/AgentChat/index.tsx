@@ -3,37 +3,44 @@
 import { Form, ItemGroup, SelectWithImg, SliderWithInput } from '@lobehub/ui';
 import { Input, Switch } from 'antd';
 import { useThemeMode } from 'antd-style';
-import { debounce } from 'lodash-es';
+import isEqual from 'fast-deep-equal';
 import { LayoutList, MessagesSquare } from 'lucide-react';
-import { memo } from 'react';
+import { memo, useLayoutEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 
-import { useSyncSettings } from '@/app/(main)/settings/hooks/useSyncSettings';
 import { FORM_STYLE } from '@/const/layoutTokens';
 import { imageUrl } from '@/const/url';
 
 import { useStore } from '../store';
+import { selectors } from '../store/selectors';
 
 const AgentChat = memo(() => {
   const { t } = useTranslation('setting');
   const [form] = Form.useForm();
   const { isDarkMode } = useThemeMode();
-
   const [
     displayMode,
     enableAutoCreateTopic,
     enableHistoryCount,
     enableCompressThreshold,
     updateConfig,
-  ] = useStore((s) => [
-    s.config.displayMode,
-    s.config.enableAutoCreateTopic,
-    s.config.enableHistoryCount,
-    s.config.enableCompressThreshold,
-    s.setAgentConfig,
-  ]);
+  ] = useStore((s) => {
+    const config = selectors.chatConfig(s);
 
-  useSyncSettings(form);
+    return [
+      config.displayMode,
+      config.enableAutoCreateTopic,
+      config.enableHistoryCount,
+      config.enableCompressThreshold,
+      s.setChatConfig,
+    ];
+  });
+
+  const config = useStore(selectors.chatConfig, isEqual);
+
+  useLayoutEffect(() => {
+    form.setFieldsValue(config);
+  }, [config]);
 
   const chat: ItemGroup = {
     children: [
@@ -125,7 +132,7 @@ const AgentChat = memo(() => {
       form={form}
       items={[chat]}
       itemsType={'group'}
-      onValuesChange={debounce(updateConfig, 100)}
+      onValuesChange={updateConfig}
       variant={'pure'}
       {...FORM_STYLE}
     />
