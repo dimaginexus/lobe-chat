@@ -2,11 +2,11 @@
 
 import { Form, ItemGroup, SliderWithInput } from '@lobehub/ui';
 import { Switch } from 'antd';
-import { debounce } from 'lodash-es';
 import { memo } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import { FORM_STYLE } from '@/const/layoutTokens';
+import { useProviderName } from '@/hooks/useProviderName';
 
 import { useStore } from '../store';
 import { selectors } from '../store/selectors';
@@ -17,10 +17,12 @@ const AgentModal = memo(() => {
   const { t } = useTranslation('setting');
   const [form] = Form.useForm();
 
-  const [enableMaxTokens, updateConfig] = useStore((s) => [
-    selectors.chatConfig(s).enableMaxTokens,
-    s.setAgentConfig,
-  ]);
+  const [enableMaxTokens, updateConfig] = useStore((s) => {
+    const config = selectors.chatConfig(s);
+    return [config.enableMaxTokens, s.setAgentConfig];
+  });
+
+  const providerName = useProviderName(useStore((s) => s.config.provider) as string);
 
   useAgentSyncSettings(form);
 
@@ -28,7 +30,7 @@ const AgentModal = memo(() => {
     children: [
       {
         children: <ModelSelect />,
-        desc: t('settingModel.model.desc'),
+        desc: t('settingModel.model.desc', { provider: providerName }),
         label: t('settingModel.model.title'),
         name: 'model',
         tag: 'model',
@@ -65,7 +67,7 @@ const AgentModal = memo(() => {
         children: <Switch />,
         label: t('settingModel.enableMaxTokens.title'),
         minWidth: undefined,
-        name: 'enableMaxTokens',
+        name: ['chatConfig', 'enableMaxTokens'],
         valuePropName: 'checked',
       },
       {
@@ -86,7 +88,7 @@ const AgentModal = memo(() => {
       form={form}
       items={[model]}
       itemsType={'group'}
-      onValuesChange={debounce(updateConfig, 100)}
+      onValuesChange={updateConfig}
       variant={'pure'}
       {...FORM_STYLE}
     />

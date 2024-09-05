@@ -11,6 +11,7 @@ export interface ChatMessageState {
    * is the AI message is generating
    */
   chatLoadingIds: string[];
+  inputFiles: File[];
   inputMessage: string;
   isCreatingMessage: boolean;
   /**
@@ -22,10 +23,15 @@ export interface ChatMessageState {
    */
   messageLoadingIds: string[];
   /**
+   * is the message is in RAG flow
+   */
+  messageRAGLoadingIds: string[];
+  /**
    * whether messages have fetched
    */
   messagesInit: boolean;
   messagesMap: Record<string, ChatMessage[]>;
+  pluginApiLoadingIds: string[];
   /**
    * the tool calling stream ids
    */
@@ -35,11 +41,14 @@ export interface ChatMessageState {
 export const initialMessageState: ChatMessageState = {
   activeId: 'inbox',
   chatLoadingIds: [],
+  inputFiles: [],
   inputMessage: '',
   isCreatingMessage: false,
   messageEditingIds: [],
   messageLoadingIds: [],
+  messageRAGLoadingIds: [],
   messagesInit: false,
   messagesMap: {},
+  pluginApiLoadingIds: [],
   toolCallingStreamIds: {},
 };

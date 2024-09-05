@@ -9,8 +9,12 @@ const currentSystemAgent = (s: UserStore) =>
 
 const translation = (s: UserStore) => currentSystemAgent(s).translation;
 const topic = (s: UserStore) => currentSystemAgent(s).topic;
+const agentMeta = (s: UserStore) => currentSystemAgent(s).agentMeta;
+const queryRewrite = (s: UserStore) => currentSystemAgent(s).queryRewrite;
 
 export const systemAgentSelectors = {
+  agentMeta,
+  queryRewrite,
   topic,
   translation,
 };

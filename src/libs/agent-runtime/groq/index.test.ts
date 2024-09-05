@@ -9,8 +9,9 @@ import { LobeGroq } from './index';
 
 const provider = 'groq';
 const defaultBaseURL = 'https://api.groq.com/openai/v1';
-const bizErrorType = 'GroqBizError';
-const invalidErrorType = 'InvalidGroqAPIKey';
+
+const bizErrorType = 'ProviderBizError';
+const invalidErrorType = 'InvalidProviderAPIKey';
 
 // Mock the console.error to avoid polluting test output
 vi.spyOn(console, 'error').mockImplementation(() => {});
@@ -84,7 +85,7 @@ describe('LobeGroqAI', () => {
             choices: [
               {
                 index: 0,
-                message: { role: 'assistant', content: 'hello' },
+                message: { role: 'assistant', content: 'hello', refusal: null },
                 logprobs: null,
                 finish_reason: 'stop',
               },

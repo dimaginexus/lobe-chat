@@ -5,6 +5,7 @@ import { DeepPartial } from 'utility-types';
 import { StateCreator } from 'zustand/vanilla';
 
 import { message } from '@/components/AntdStaticMethods';
+import { MESSAGE_CANCEL_FLAT } from '@/const/message';
 import { DEFAULT_AGENT_LOBE_SESSION, INBOX_SESSION_ID } from '@/const/session';
 import { useClientDataSWR } from '@/libs/swr';
 import { sessionService } from '@/services/session';
@@ -18,7 +19,7 @@ import {
   LobeSessionGroups,
   LobeSessionType,
   LobeSessions,
-  SessionGroupId,
+  UpdateSessionParams,
 } from '@/types/session';
 import { merge } from '@/utils/merge';
 import { setNamespace } from '@/utils/storeDebug';
@@ -35,10 +36,9 @@ const SEARCH_SESSIONS_KEY = 'searchSessions';
 /* eslint-disable typescript-sort-keys/interface */
 export interface SessionAction {
   /**
-   * active the session
-   * @param sessionId
+   * switch the session
    */
-  activeSession: (sessionId: string) => void;
+  switchSession: (sessionId: string) => void;
   /**
    * reset sessions to default
    */
@@ -53,6 +53,7 @@ export interface SessionAction {
     isSwitchSession?: boolean,
   ) => Promise<string>;
   duplicateSession: (id: string) => Promise<void>;
+  triggerSessionUpdate: (id: string) => Promise<void>;
   updateSessionGroupId: (sessionId: string, groupId: string) => Promise<void>;
   updateSessionMeta: (meta: Partial<MetaData>) => void;
 
@@ -76,10 +77,7 @@ export interface SessionAction {
   useSearchSessions: (keyword?: string) => SWRResponse<any>;
 
   internal_dispatchSessions: (payload: SessionDispatch) => void;
-  internal_updateSession: (
-    id: string,
-    data: Partial<{ group?: SessionGroupId; meta?: any; pinned?: boolean }>,
-  ) => Promise<void>;
+  internal_updateSession: (id: string, data: Partial<UpdateSessionParams>) => Promise<void>;
   internal_processSessions: (
     sessions: LobeSessions,
     customGroups: LobeSessionGroups,
@@ -94,19 +92,13 @@ export const createSessionSlice: StateCreator<
   [],
   SessionAction
 > = (set, get) => ({
-  activeSession: (sessionId) => {
-    if (get().activeId === sessionId) return;
-
-    set({ activeId: sessionId }, false, n(`activeSession/${sessionId}`));
-  },
-
   clearSessions: async () => {
     await sessionService.removeAllSessions();
     await get().refreshSessions();
   },
 
   createSession: async (agent, isSwitchSession = true) => {
-    const { activeSession, refreshSessions } = get();
+    const { switchSession, refreshSessions } = get();
 
     // merge the defaultAgent in settings
     const defaultAgent = merge(
@@ -120,12 +112,12 @@ export const createSessionSlice: StateCreator<
     await refreshSessions();
 
     // Whether to goto  to the new session after creation, the default is to switch to
-    if (isSwitchSession) activeSession(id);
+    if (isSwitchSession) switchSession(id);
 
     return id;
   },
   duplicateSession: async (id) => {
-    const { activeSession, refreshSessions } = get();
+    const { switchSession, refreshSessions } = get();
     const session = sessionSelectors.getSessionById(id)(get());
 
     if (!session) return;
@@ -154,21 +146,29 @@ export const createSessionSlice: StateCreator<
     message.destroy(messageLoadingKey);
     message.success(t('duplicateSession.success', { ns: 'chat' }));
 
-    activeSession(newId);
+    switchSession(newId);
   },
-
   pinSession: async (id, pinned) => {
     await get().internal_updateSession(id, { pinned });
   },
-
   removeSession: async (sessionId) => {
     await sessionService.removeSession(sessionId);
     await get().refreshSessions();
 
     // If the active session deleted, switch to the inbox session
     if (sessionId === get().activeId) {
-      get().activeSession(INBOX_SESSION_ID);
+      get().switchSession(INBOX_SESSION_ID);
     }
+  },
+
+  switchSession: (sessionId) => {
+    if (get().activeId === sessionId) return;
+
+    set({ activeId: sessionId }, false, n(`activeSession/${sessionId}`));
+  },
+
+  triggerSessionUpdate: async (id) => {
+    await get().internal_updateSession(id, { updatedAt: new Date() });
   },
 
   updateSearchKeywords: (keywords) => {
@@ -189,7 +189,7 @@ export const createSessionSlice: StateCreator<
     const { activeId, refreshSessions } = get();
 
     const abortController = get().signalSessionMeta as AbortController;
-    if (abortController) abortController.abort('canceled');
+    if (abortController) abortController.abort(MESSAGE_CANCEL_FLAT);
     const controller = new AbortController();
     set({ signalSessionMeta: controller }, false, 'updateSessionMetaSignal');
 

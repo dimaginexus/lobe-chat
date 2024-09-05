@@ -22,8 +22,10 @@ export interface CreateChatCompletionOptions {
 }
 
 export enum ModelProvider {
+  Ai360 = 'ai360',
   Anthropic = 'anthropic',
   Azure = 'azure',
+  Baichuan = 'baichuan',
   Bedrock = 'bedrock',
   DeepSeek = 'deepseek',
   Google = 'google',
@@ -31,12 +33,17 @@ export enum ModelProvider {
   Minimax = 'minimax',
   Mistral = 'mistral',
   Moonshot = 'moonshot',
+  Novita = 'novita',
   Ollama = 'ollama',
   OpenAI = 'openai',
   OpenRouter = 'openrouter',
   Perplexity = 'perplexity',
   Qwen = 'qwen',
+  SiliconCloud = 'siliconcloud',
+  Stepfun = 'stepfun',
+  Taichu = 'taichu',
   TogetherAI = 'togetherai',
+  Upstage = 'upstage',
   ZeroOne = 'zeroone',
   ZhiPu = 'zhipu',
 }

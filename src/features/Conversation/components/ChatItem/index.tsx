@@ -1,7 +1,7 @@
-import { AlertProps, ChatItem } from '@lobehub/ui';
+import { ChatItem } from '@lobehub/ui';
 import { createStyles } from 'antd-style';
 import isEqual from 'fast-deep-equal';
-import { ReactNode, memo, useCallback, useMemo } from 'react';
+import { ReactNode, memo, useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import { useAgentStore } from '@/store/agent';
@@ -14,9 +14,9 @@ import { useUserStore } from '@/store/user';
 import { userGeneralSettingsSelectors } from '@/store/user/selectors';
 import { ChatMessage } from '@/types/message';
 
-import ErrorMessageExtra, { getErrorAlertConfig } from '../../Error';
+import ErrorMessageExtra, { useErrorContent } from '../../Error';
 import { renderMessagesExtra } from '../../Extras';
-import { renderMessages, useAvatarsClick } from '../../Messages';
+import { renderBelowMessages, renderMessages, useAvatarsClick } from '../../Messages';
 import ActionsBar from './ActionsBar';
 import HistoryDivider from './HistoryDivider';
 
@@ -57,14 +57,24 @@ const Item = memo<ChatListItemProps>(({ index, id }) => {
 
   const historyLength = useChatStore((s) => chatSelectors.currentChats(s).length);
 
-  const [isMessageLoading, generating, editing, toggleMessageEditing, updateMessageContent] =
-    useChatStore((s) => [
-      chatSelectors.isMessageLoading(id)(s),
-      chatSelectors.isMessageGenerating(id)(s),
-      chatSelectors.isMessageEditing(id)(s),
-      s.toggleMessageEditing,
-      s.modifyMessageContent,
-    ]);
+  const [
+    isMessageLoading,
+    generating,
+    isInRAGFlow,
+    editing,
+    toggleMessageEditing,
+    updateMessageContent,
+  ] = useChatStore((s) => [
+    chatSelectors.isMessageLoading(id)(s),
+    chatSelectors.isMessageGenerating(id)(s),
+    chatSelectors.isMessageInRAGFlow(id)(s),
+    chatSelectors.isMessageEditing(id)(s),
+    s.toggleMessageEditing,
+    s.modifyMessageContent,
+  ]);
+
+  // when the message is in RAG flow or the AI generating, it should be in loading state
+  const isProcessing = isInRAGFlow || generating;
 
   const onAvatarsClick = useAvatarsClick();
 
@@ -80,6 +90,18 @@ const Item = memo<ChatListItemProps>(({ index, id }) => {
     [item?.role],
   );
 
+  const BelowMessage = useCallback(
+    ({ data }: { data: ChatMessage }) => {
+      if (!item?.role) return;
+      const RenderFunction = renderBelowMessages[item.role] ?? renderBelowMessages['default'];
+
+      if (!RenderFunction) return;
+
+      return <RenderFunction {...data} />;
+    },
+    [item?.role],
+  );
+
   const MessageExtra = useCallback(
     ({ data }: { data: ChatMessage }) => {
       if (!renderMessagesExtra || !item?.role) return;
@@ -91,16 +113,7 @@ const Item = memo<ChatListItemProps>(({ index, id }) => {
     },
     [item?.role],
   );
-
-  const { t: errorT } = useTranslation('error');
-  const error = useMemo<AlertProps | undefined>(() => {
-    if (!item?.error) return;
-    const messageError = item.error;
-
-    const alertConfig = getErrorAlertConfig(messageError.type);
-
-    return { message: errorT(`response.${messageError.type}` as any), ...alertConfig };
-  }, [item?.error]);
+  const error = useErrorContent(item?.error);
 
   const enableHistoryDivider = useAgentStore((s) => {
     const config = agentSelectors.currentAgentChatConfig(s);
@@ -125,12 +138,13 @@ const Item = memo<ChatListItemProps>(({ index, id }) => {
             />
           }
           avatar={item.meta}
+          belowMessage={<BelowMessage data={item} />}
           className={cx(styles.message, isMessageLoading && styles.loading)}
           editing={editing}
           error={error}
           errorMessage={<ErrorMessageExtra data={item} />}
           fontSize={fontSize}
-          loading={generating}
+          loading={isProcessing}
           message={item.content}
           messageExtra={<MessageExtra data={item} />}
           onAvatarClick={onAvatarsClick?.(item.role)}

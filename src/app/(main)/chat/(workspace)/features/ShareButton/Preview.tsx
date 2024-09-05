@@ -1,10 +1,11 @@
-import { Avatar, ChatHeaderTitle, Logo, Markdown } from '@lobehub/ui';
+import { ModelTag } from '@lobehub/icons';
+import { Avatar, ChatHeaderTitle, Markdown } from '@lobehub/ui';
+import { LobeChat } from '@lobehub/ui/brand';
 import { memo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Flexbox } from 'react-layout-kit';
 
 import pkg from '@/../package.json';
-import ModelTag from '@/components/ModelTag';
 import ChatList from '@/features/Conversation/components/ChatList';
 import { useAgentStore } from '@/store/agent';
 import { agentSelectors } from '@/store/agent/selectors';
@@ -62,7 +63,7 @@ const Preview = memo<FieldType & { title?: string }>(
             <ChatList />
             {withFooter ? (
               <Flexbox align={'center'} className={styles.footer} gap={4}>
-                <Logo extra={'chat'} type={'combine'} />
+                <LobeChat type={'combine'} />
                 <div className={styles.url}>{pkg.homepage}</div>
               </Flexbox>
             ) : (

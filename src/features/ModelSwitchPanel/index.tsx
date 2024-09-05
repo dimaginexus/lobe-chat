@@ -10,6 +10,7 @@ import { useTranslation } from 'react-i18next';
 import { Flexbox } from 'react-layout-kit';
 
 import { ModelItemRender, ProviderItemRender } from '@/components/ModelSelect';
+import { useIsMobile } from '@/hooks/useIsMobile';
 import { useAgentStore } from '@/store/agent';
 import { agentSelectors } from '@/store/agent/slices/chat';
 import { useUserStore } from '@/store/user';
@@ -49,7 +50,10 @@ const ModelSwitchPanel = memo<PropsWithChildren>(({ children }) => {
     s.updateAgentConfig,
   ]);
 
+  const isMobile = useIsMobile();
+
   const router = useRouter();
+
   const enabledList = useUserStore(modelProviderSelectors.modelProviderListForModelSelect, isEqual);
 
   const items = useMemo<ItemType[]>(() => {
@@ -86,7 +90,7 @@ const ModelSwitchPanel = memo<PropsWithChildren>(({ children }) => {
     return enabledList.map((provider) => ({
       children: getModelItems(provider),
       key: provider.id,
-      label: <ProviderItemRender provider={provider.id} />,
+      label: <ProviderItemRender name={provider.name} provider={provider.id} />,
       type: 'group',
     }));
   }, [enabledList]);
@@ -102,7 +106,7 @@ const ModelSwitchPanel = memo<PropsWithChildren>(({ children }) => {
           overflowY: 'scroll',
         },
       }}
-      placement={'topLeft'}
+      placement={isMobile ? 'top' : 'topLeft'}
       trigger={['click']}
     >
       <div className={styles.tag}>{children}</div>

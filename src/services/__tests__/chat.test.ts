@@ -1,6 +1,7 @@
 import { LobeChatPluginManifest } from '@lobehub/chat-plugin-sdk';
 import { act } from '@testing-library/react';
 import { merge } from 'lodash-es';
+import OpenAI from 'openai';
 import { describe, expect, it, vi } from 'vitest';
 
 import { DEFAULT_AGENT_CONFIG } from '@/const/settings';
@@ -15,6 +16,7 @@ import {
   LobeMoonshotAI,
   LobeOllamaAI,
   LobeOpenAI,
+  LobeOpenAICompatibleRuntime,
   LobeOpenRouterAI,
   LobePerplexityAI,
   LobeQwenAI,
@@ -30,7 +32,7 @@ import { UserStore } from '@/store/user';
 import { UserSettingsState, initialSettingsState } from '@/store/user/slices/settings/initialState';
 import { DalleManifest } from '@/tools/dalle';
 import { ChatMessage } from '@/types/message';
-import { ChatStreamPayload } from '@/types/openai/chat';
+import { ChatStreamPayload, type OpenAIChatMessage } from '@/types/openai/chat';
 import { LobeTool } from '@/types/tool';
 
 import { chatService, initializeWithClientStore } from '../chat';
@@ -127,25 +129,20 @@ describe('ChatService', () => {
     describe('should handle content correctly for vision models', () => {
       it('should include image content when with vision model', async () => {
         const messages = [
-          { content: 'Hello', role: 'user', files: ['file1'] }, // Message with files
+          {
+            content: 'Hello',
+            role: 'user',
+            imageList: [
+              {
+                id: 'file1',
+                url: 'http://example.com/image.jpg',
+                alt: 'abc.png',
+              },
+            ],
+          }, // Message with files
           { content: 'Hi', role: 'tool', plugin: { identifier: 'plugin1', apiName: 'api1' } }, // Message with tool role
           { content: 'Hey', role: 'assistant' }, // Regular user message
         ] as ChatMessage[];
-
-        // Mock file store state to return a specific image URL or Base64 for the given files
-        act(() => {
-          useFileStore.setState({
-            imagesMap: {
-              file1: {
-                id: 'file1',
-                name: 'abc.png',
-                saveMode: 'url',
-                fileType: 'image/png',
-                url: 'http://example.com/image.jpg',
-              },
-            },
-          });
-        });
 
         const getChatCompletionSpy = vi.spyOn(chatService, 'getChatCompletion');
         await chatService.createAssistantMessage({
@@ -183,69 +180,12 @@ describe('ChatService', () => {
         );
       });
 
-      it('should not include image content when default model', async () => {
-        const messages = [
-          { content: 'Hello', role: 'user', files: ['file1'] }, // Message with files
-          { content: 'Hi', role: 'tool', plugin: { identifier: 'plugin1', apiName: 'api1' } }, // Message with function role
-          { content: 'Hey', role: 'assistant' }, // Regular user message
-        ] as ChatMessage[];
-
-        // Mock file store state to return a specific image URL or Base64 for the given files
-        act(() => {
-          useFileStore.setState({
-            imagesMap: {
-              file1: {
-                id: 'file1',
-                name: 'abc.png',
-                saveMode: 'url',
-                fileType: 'image/png',
-                url: 'http://example.com/image.jpg',
-              },
-            },
-          });
-        });
-
-        const getChatCompletionSpy = vi.spyOn(chatService, 'getChatCompletion');
-        await chatService.createAssistantMessage({
-          messages,
-          plugins: [],
-          model: 'gpt-3.5-turbo',
-        });
-
-        expect(getChatCompletionSpy).toHaveBeenCalledWith(
-          {
-            messages: [
-              { content: 'Hello', role: 'user' },
-              { content: 'Hi', name: 'plugin1____api1', role: 'tool' },
-              { content: 'Hey', role: 'assistant' },
-            ],
-            model: 'gpt-3.5-turbo',
-          },
-          undefined,
-        );
-      });
-
       it('should not include image with vision models when can not find the image', async () => {
         const messages = [
           { content: 'Hello', role: 'user', files: ['file2'] }, // Message with files
           { content: 'Hi', role: 'tool', plugin: { identifier: 'plugin1', apiName: 'api1' } }, // Message with function role
           { content: 'Hey', role: 'assistant' }, // Regular user message
         ] as ChatMessage[];
-
-        // Mock file store state to return a specific image URL or Base64 for the given files
-        act(() => {
-          useFileStore.setState({
-            imagesMap: {
-              file1: {
-                id: 'file1',
-                name: 'abc.png',
-                saveMode: 'url',
-                fileType: 'image/png',
-                url: 'http://example.com/image.jpg',
-              },
-            },
-          });
-        });
 
         const getChatCompletionSpy = vi.spyOn(chatService, 'getChatCompletion');
         await chatService.createAssistantMessage({ messages, plugins: [] });
@@ -575,7 +515,6 @@ Get data from users`,
         body: JSON.stringify(expectedPayload),
         headers: expect.any(Object),
         method: 'POST',
-        signal: expect.any(AbortSignal),
       });
     });
 
@@ -614,7 +553,7 @@ Get data from users`,
       const abortController = new AbortController();
       const trace = {};
 
-      const result = await chatService.fetchPresetTaskResult({
+      await chatService.fetchPresetTaskResult({
         params,
         onMessageHandle,
         onFinish,
@@ -624,9 +563,12 @@ Get data from users`,
         trace,
       });
 
-      expect(result).toBe('AI response');
-
-      expect(onFinish).toHaveBeenCalled();
+      expect(onFinish).toHaveBeenCalledWith('AI response', {
+        type: 'done',
+        observationId: null,
+        toolCalls: undefined,
+        traceId: null,
+      });
       expect(onError).not.toHaveBeenCalled();
       expect(onMessageHandle).toHaveBeenCalled();
       expect(onLoadingChange).toHaveBeenCalledWith(false); // 确认加载状态已经被设置为 false
@@ -662,6 +604,141 @@ Get data from users`,
         type: 404,
       });
       expect(onLoadingChange).toHaveBeenCalledWith(false); // 确认加载状态已经被设置为 false
+    });
+  });
+
+  describe('processMessage', () => {
+    it('should reorderToolMessages', () => {
+      const input: OpenAIChatMessage[] = [
+        {
+          content: '## Tools\n\nYou can use these tools',
+          role: 'system',
+        },
+        {
+          content: '',
+          role: 'assistant',
+          tool_calls: [
+            {
+              function: {
+                arguments:
+                  '{"query":"LobeChat","searchEngines":["brave","google","duckduckgo","qwant"]}',
+                name: 'lobe-web-browsing____searchWithSearXNG____builtin',
+              },
+              id: 'call_6xCmrOtFOyBAcqpqO1TGfw2B',
+              type: 'function',
+            },
+            {
+              function: {
+                arguments:
+                  '{"query":"LobeChat","searchEngines":["brave","google","duckduckgo","qwant"]}',
+                name: 'lobe-web-browsing____searchWithSearXNG____builtin',
+              },
+              id: 'tool_call_nXxXHW8Z',
+              type: 'function',
+            },
+            {
+              function: {
+                arguments: '{"query":"LobeHub","searchEngines":["bilibili"]}',
+                name: 'lobe-web-browsing____searchWithSearXNG____builtin',
+              },
+              id: 'tool_call_2f3CEKz9',
+              type: 'function',
+            },
+          ],
+        },
+        {
+          content: '[]',
+          name: 'lobe-web-browsing____searchWithSearXNG____builtin',
+          role: 'tool',
+          tool_call_id: 'call_6xCmrOtFOyBAcqpqO1TGfw2B',
+        },
+        {
+          content: 'LobeHub 是一个专注于设计和开发现代人工智能生成内容（AIGC）工具和组件的团队。',
+          role: 'assistant',
+        },
+        {
+          content: '[]',
+          name: 'lobe-web-browsing____searchWithSearXNG____builtin',
+          role: 'tool',
+          tool_call_id: 'tool_call_nXxXHW8Z',
+        },
+        {
+          content: '[]',
+          name: 'lobe-web-browsing____searchWithSearXNG____builtin',
+          role: 'tool',
+          tool_call_id: 'tool_call_2f3CEKz9',
+        },
+        {
+          content: '### LobeHub 智能AI聚合神器\n\nLobeHub 是一个强大的AI聚合平台',
+          role: 'assistant',
+        },
+      ];
+      const output = chatService['reorderToolMessages'](input);
+
+      expect(output).toEqual([
+        {
+          content: '## Tools\n\nYou can use these tools',
+          role: 'system',
+        },
+        {
+          content: '',
+          role: 'assistant',
+          tool_calls: [
+            {
+              function: {
+                arguments:
+                  '{"query":"LobeChat","searchEngines":["brave","google","duckduckgo","qwant"]}',
+                name: 'lobe-web-browsing____searchWithSearXNG____builtin',
+              },
+              id: 'call_6xCmrOtFOyBAcqpqO1TGfw2B',
+              type: 'function',
+            },
+            {
+              function: {
+                arguments:
+                  '{"query":"LobeChat","searchEngines":["brave","google","duckduckgo","qwant"]}',
+                name: 'lobe-web-browsing____searchWithSearXNG____builtin',
+              },
+              id: 'tool_call_nXxXHW8Z',
+              type: 'function',
+            },
+            {
+              function: {
+                arguments: '{"query":"LobeHub","searchEngines":["bilibili"]}',
+                name: 'lobe-web-browsing____searchWithSearXNG____builtin',
+              },
+              id: 'tool_call_2f3CEKz9',
+              type: 'function',
+            },
+          ],
+        },
+        {
+          content: '[]',
+          name: 'lobe-web-browsing____searchWithSearXNG____builtin',
+          role: 'tool',
+          tool_call_id: 'call_6xCmrOtFOyBAcqpqO1TGfw2B',
+        },
+        {
+          content: '[]',
+          name: 'lobe-web-browsing____searchWithSearXNG____builtin',
+          role: 'tool',
+          tool_call_id: 'tool_call_nXxXHW8Z',
+        },
+        {
+          content: '[]',
+          name: 'lobe-web-browsing____searchWithSearXNG____builtin',
+          role: 'tool',
+          tool_call_id: 'tool_call_2f3CEKz9',
+        },
+        {
+          content: 'LobeHub 是一个专注于设计和开发现代人工智能生成内容（AIGC）工具和组件的团队。',
+          role: 'assistant',
+        },
+        {
+          content: '### LobeHub 智能AI聚合神器\n\nLobeHub 是一个强大的AI聚合平台',
+          role: 'assistant',
+        },
+      ]);
     });
   });
 });
@@ -701,7 +778,7 @@ describe('AgentRuntimeOnClient', () => {
               azure: {
                 apiKey: 'user-azure-key',
                 endpoint: 'user-azure-endpoint',
-                apiVersion: '2024-02-01',
+                apiVersion: '2024-06-01',
               },
             },
           },
@@ -863,19 +940,24 @@ describe('AgentRuntimeOnClient', () => {
         expect(runtime['_runtime']).toBeInstanceOf(LobeZeroOneAI);
       });
 
-      it('Groq provider: with apiKey', async () => {
+      it('Groq provider: with apiKey,endpoint', async () => {
         merge(initialSettingsState, {
           settings: {
             keyVaults: {
               groq: {
                 apiKey: 'user-groq-key',
+                baseURL: 'user-groq-endpoint',
               },
             },
           },
         } as UserSettingsState) as unknown as UserStore;
         const runtime = await initializeWithClientStore(ModelProvider.Groq, {});
         expect(runtime).toBeInstanceOf(AgentRuntime);
-        expect(runtime['_runtime']).toBeInstanceOf(LobeGroq);
+        const lobeOpenAICompatibleInstance = runtime['_runtime'] as LobeOpenAICompatibleRuntime;
+        expect(lobeOpenAICompatibleInstance).toBeInstanceOf(LobeGroq);
+        expect(lobeOpenAICompatibleInstance.baseURL).toBe('user-groq-endpoint');
+        expect(lobeOpenAICompatibleInstance.client).toBeInstanceOf(OpenAI);
+        expect(lobeOpenAICompatibleInstance.client.apiKey).toBe('user-groq-key');
       });
 
       it('DeepSeek provider: with apiKey', async () => {

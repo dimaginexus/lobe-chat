@@ -4,22 +4,10 @@ import {
   ChatMessageError,
   ChatTTS,
   ChatTranslate,
-  MessageRoleType,
+  CreateMessageParams,
 } from '@/types/message';
 
 /* eslint-disable typescript-sort-keys/interface */
-
-export interface CreateMessageParams
-  extends Partial<Omit<ChatMessage, 'content' | 'role' | 'topicId'>> {
-  fromModel?: string;
-  fromProvider?: string;
-  sessionId: string;
-  traceId?: string;
-  topicId?: string;
-  content: string;
-  error?: ChatMessageError;
-  role: MessageRoleType;
-}
 
 export interface IMessageService {
   createMessage(data: CreateMessageParams): Promise<string>;
@@ -39,7 +27,8 @@ export interface IMessageService {
   bindMessagesToTopic(topicId: string, messageIds: string[]): Promise<any>;
 
   removeMessage(id: string): Promise<any>;
-  removeMessages(assistantId: string, topicId?: string): Promise<any>;
+  removeMessages(ids: string[]): Promise<any>;
+  removeMessagesByAssistant(assistantId: string, topicId?: string): Promise<any>;
   removeAllMessages(): Promise<any>;
 
   hasMessages(): Promise<boolean>;

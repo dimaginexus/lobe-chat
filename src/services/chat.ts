@@ -8,7 +8,6 @@ import { INBOX_SESSION_ID } from '@/const/session';
 import { DEFAULT_AGENT_CONFIG } from '@/const/settings';
 import { TracePayload, TraceTagMap } from '@/const/trace';
 import { AgentRuntime, ChatCompletionErrorPayload, ModelProvider } from '@/libs/agent-runtime';
-import { filesSelectors, useFileStore } from '@/store/file';
 import { useSessionStore } from '@/store/session';
 import { sessionMetaSelectors } from '@/store/session/selectors';
 import { useToolStore } from '@/store/tool';
@@ -125,6 +124,10 @@ export function initializeWithClientStore(provider: string, payload: any) {
       break;
     }
     case ModelProvider.Perplexity: {
+      providerOptions = {
+        apikey: providerAuthPayload?.apiKey,
+        baseURL: providerAuthPayload?.endpoint,
+      };
       break;
     }
     case ModelProvider.Qwen: {
@@ -140,6 +143,10 @@ export function initializeWithClientStore(provider: string, payload: any) {
       break;
     }
     case ModelProvider.Groq: {
+      providerOptions = {
+        apikey: providerAuthPayload?.apiKey,
+        baseURL: providerAuthPayload?.endpoint,
+      };
       break;
     }
     case ModelProvider.DeepSeek: {
@@ -359,23 +366,26 @@ class ChatService {
         return;
       }
       onError?.(error, errorContent);
+      console.error(error);
     };
 
     onLoadingChange?.(true);
 
-    const data = await this.getChatCompletion(params, {
-      onErrorHandle: (error) => {
-        errorHandle(new Error(error.message), error);
-      },
-      onFinish,
-      onMessageHandle,
-      signal: abortController?.signal,
-      trace: this.mapTrace(trace, TraceTagMap.SystemChain),
-    }).catch(errorHandle);
+    try {
+      await this.getChatCompletion(params, {
+        onErrorHandle: (error) => {
+          errorHandle(new Error(error.message), error);
+        },
+        onFinish,
+        onMessageHandle,
+        signal: abortController?.signal,
+        trace: this.mapTrace(trace, TraceTagMap.SystemChain),
+      });
 
-    onLoadingChange?.(false);
-
-    return await data?.text();
+      onLoadingChange?.(false);
+    } catch (e) {
+      errorHandle(e as Error);
+    }
   };
 
   private processMessages = (
@@ -394,9 +404,9 @@ class ChatService {
     // for the models with visual ability, add image url to content
     // refs: https://platform.openai.com/docs/guides/vision/quick-start
     const getContent = (m: ChatMessage) => {
-      if (!m.files) return m.content;
+      if (!m.imageList) return m.content;
 
-      const imageList = filesSelectors.getImageUrlOrBase64ByList(m.files)(useFileStore.getState());
+      const imageList = m.imageList;
 
       if (imageList.length === 0) return m.content;
 
@@ -416,7 +426,7 @@ class ChatService {
       ] as UserMessageContentPart[];
     };
 
-    const postMessages = messages.map((m): OpenAIChatMessage => {
+    let postMessages = messages.map((m): OpenAIChatMessage => {
       switch (m.role) {
         case 'user': {
           return { content: getContent(m), role: m.role };
@@ -454,7 +464,7 @@ class ChatService {
       }
     });
 
-    return produce(postMessages, (draft) => {
+    postMessages = produce(postMessages, (draft) => {
       // if it's a welcome question, inject InboxGuide SystemRole
       const inboxGuideSystemRole =
         options?.isWelcomeQuestion &&
@@ -488,6 +498,8 @@ class ChatService {
         });
       }
     });
+
+    return this.reorderToolMessages(postMessages);
   };
 
   private mapTrace(trace?: TracePayload, tag?: TraceTagMap): TracePayload {
@@ -518,6 +530,46 @@ class ChatService {
     const data = params.payload as ChatStreamPayload;
 
     return agentRuntime.chat(data, { signal: params.signal });
+  };
+
+  /**
+   * Reorder tool messages to ensure that tool messages are displayed in the correct order.
+   * see https://github.com/lobehub/lobe-chat/pull/3155
+   */
+  private reorderToolMessages = (messages: OpenAIChatMessage[]): OpenAIChatMessage[] => {
+    const reorderedMessages: OpenAIChatMessage[] = [];
+    const toolMessages: Record<string, OpenAIChatMessage> = {};
+
+    // 1. collect all tool messages
+    messages.forEach((message) => {
+      if (message.role === 'tool' && message.tool_call_id) {
+        toolMessages[message.tool_call_id] = message;
+      }
+    });
+
+    // 2. reorder messages
+    messages.forEach((message) => {
+      const hasPushed = reorderedMessages.some(
+        (m) => !!message.tool_call_id && m.tool_call_id === message.tool_call_id,
+      );
+
+      if (hasPushed) return;
+
+      reorderedMessages.push(message);
+
+      if (message.role === 'assistant' && message.tool_calls) {
+        message.tool_calls.forEach((toolCall) => {
+          const correspondingToolMessage = toolMessages[toolCall.id];
+          if (correspondingToolMessage) {
+            reorderedMessages.push(correspondingToolMessage);
+            // 从 toolMessages 中删除已处理的消息，避免重复
+            delete toolMessages[toolCall.id];
+          }
+        });
+      }
+    });
+
+    return reorderedMessages;
   };
 }
 
